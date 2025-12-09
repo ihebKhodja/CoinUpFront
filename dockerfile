@@ -20,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the built app from Stage 1
-COPY --from=build dist/CoinUpFront /usr/share/nginx/html
+COPY --from=build app/dist/CoinUpFront/browser /usr/share/nginx/html
 
 # Copy custom nginx config if needed (optional)
 # COPY nginx.conf /etc/nginx/conf.d/default.conf

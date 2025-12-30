@@ -1,0 +1,179 @@
+<div class="register-page">
+	<header class="register-topbar">
+		<div class="topbar-inner">
+			<div class="brand">
+				<div class="brand-icon" aria-hidden="true">
+					<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+						<path
+							d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
+							fill="currentColor"></path>
+					</svg>
+				</div>
+				<h2 class="brand-title">CryptoWallet</h2>
+			</div>
+
+			<div class="topbar-actions">
+				<span class="topbar-hint">Already have an account?</span>
+				<a class="topbar-button" routerLink="/login">Log In</a>
+			</div>
+		</div>
+	</header>
+
+	<main class="register-main">
+		<div class="container">
+			<div class="layout">
+				<!-- Left (marketing) -->
+				<section class="left" aria-hidden="true">
+					<div class="left-glow"></div>
+
+					<div class="left-content">
+						<h1 class="headline">
+							The future of <br />
+							<span class="headline-accent">secure crypto</span> <br />
+							asset management.
+						</h1>
+						<p class="lead">
+							Create your wallet in seconds. Join over 2 million
+							users buying, selling, and swapping crypto
+							securely.
+						</p>
+
+						<div class="feature-grid">
+							<div class="feature-card">
+								<i class="pi pi-shield feature-icon" aria-hidden="true"></i>
+								<h3 class="feature-title">Bank-grade Security</h3>
+								<p class="feature-text">Your keys, your crypto. Fully encrypted.</p>
+							</div>
+							<div class="feature-card">
+								<i class="pi pi-bolt feature-icon" aria-hidden="true"></i>
+								<h3 class="feature-title">Lightning Fast</h3>
+								<p class="feature-text">Instant transactions with zero lag.</p>
+							</div>
+						</div>
+
+						<div class="trusted-card">
+							<div class="trusted-bg" aria-hidden="true"></div>
+							<div class="trusted-footer">
+								<div class="avatars" aria-hidden="true">
+									<span class="avatar">JD</span>
+									<span class="avatar">AK</span>
+									<span class="avatar">MS</span>
+								</div>
+								<span class="trusted-label">+2M Trusted Users</span>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Right (form) -->
+				<section class="right">
+					<div class="card">
+						<div class="card-topline" aria-hidden="true"></div>
+
+						<div class="card-header">
+							<h2 class="card-title">Create an account</h2>
+							<p class="card-subtitle">Enter your details to get started with your secure wallet.</p>
+						</div>
+
+						<div class="error-alert" *ngIf="error$ | async as error">
+							<i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+							<span>{{ error }}</span>
+						</div>
+
+						<form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+							<div class="field">
+								<label class="label" for="username">Username</label>
+								<div class="input-with-leading-icon">
+									<i class="pi pi-user field-leading" aria-hidden="true"></i>
+									<input id="username" type="text" pInputText class="input" formControlName="username"
+										placeholder="Choose a username" />
+								</div>
+								<small class="error-message" *ngIf="username?.invalid && username?.touched">Username is required</small>
+							</div>
+
+							<div class="field">
+								<label class="label" for="email">Email Address</label>
+								<div class="input-with-leading-icon">
+									<i class="pi pi-envelope field-leading" aria-hidden="true"></i>
+									<input id="email" type="email" pInputText class="input" formControlName="email"
+										placeholder="name@example.com" />
+								</div>
+								<small class="error-message" *ngIf="email?.invalid && email?.touched">Please enter a valid email</small>
+							</div>
+
+							<div class="row">
+								<div class="field">
+									<label class="label" for="password">Password</label>
+									<div class="input-with-leading-icon">
+										<i class="pi pi-lock field-leading" aria-hidden="true"></i>
+										<input id="password" [type]="showPassword ? 'text' : 'password'" pInputText class="input input-password"
+											formControlName="password" placeholder="••••••••" />
+										<button type="button" class="toggle" (click)="togglePasswordVisibility()"
+											[attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+											<i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'" aria-hidden="true"></i>
+										</button>
+									</div>
+									<small class="error-message" *ngIf="password?.invalid && password?.touched">Password must be at least 8 characters</small>
+								</div>
+
+								<div class="field">
+									<label class="label" for="confirmPassword">Confirm Password</label>
+									<div class="input-with-leading-icon">
+										<i class="pi pi-lock-open field-leading" aria-hidden="true"></i>
+										<input id="confirmPassword" type="password" pInputText class="input" formControlName="confirmPassword"
+											placeholder="••••••••" />
+									</div>
+									<small class="error-message" *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched">Passwords do not match</small>
+								</div>
+							</div>
+
+							<div class="strength">
+								<div class="strength-bars" aria-hidden="true">
+									<span class="bar" [class.filled]="passwordStrengthLevel >= 1" [class.weak]="passwordStrengthLevel === 1"></span>
+									<span class="bar" [class.filled]="passwordStrengthLevel >= 2" [class.medium]="passwordStrengthLevel === 2"></span>
+									<span class="bar" [class.filled]="passwordStrengthLevel >= 3" [class.strong]="passwordStrengthLevel === 3"></span>
+									<span class="bar" [class.filled]="passwordStrengthLevel >= 4" [class.strong]="passwordStrengthLevel === 4"></span>
+								</div>
+								<p class="strength-text">Password strength:
+									<span class="strength-label" [ngClass]="passwordStrengthLabelClass">{{ passwordStrengthLabel }}</span>
+								</p>
+							</div>
+
+							<label class="terms">
+								<input type="checkbox" formControlName="agreedToTerms" />
+								<span>
+									I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>.
+								</span>
+							</label>
+
+							<button type="submit" pButton pRipple label="Create Account" class="primary"
+								[loading]="(loading$ | async) ?? false"
+								[disabled]="registerForm.invalid || ((loading$ | async) ?? false)"></button>
+
+							<div class="divider">
+								<span class="divider-line"></span>
+								<span class="divider-text">OR CONTINUE WITH</span>
+								<span class="divider-line"></span>
+							</div>
+
+							<div class="social">
+								<button type="button" class="social-btn">
+									<span class="google-mark" aria-hidden="true">G</span>
+									Google
+								</button>
+								<button type="button" class="social-btn">
+									<i class="pi pi-apple" aria-hidden="true"></i>
+									Apple
+								</button>
+							</div>
+						</form>
+					</div>
+				</section>
+			</div>
+		</div>
+	</main>
+
+	<footer class="register-footer">
+		<p>© 2023 CryptoWallet Inc. All rights reserved.</p>
+	</footer>
+</div>

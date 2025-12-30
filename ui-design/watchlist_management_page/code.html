@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchlist Management - CryptoWallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6", // Changed to a nice professional blue (blue-500)
+                        "primary-dark": "#2563eb", // Darker blue for hovers (blue-600)
+                        "primary-light": "#dbeafe", // Very light blue for backgrounds (blue-100)
+                        "background-light": "#f0f4f8", // Slightly cool gray/blue background
+                        "background-dark": "#0f172a", // Deep navy blue/slate background (slate-900)
+                        "surface-dark": "#1e293b", // Lighter navy blue for surfaces (slate-800)
+                        "border-dark": "#334155", // Border color for dark mode (slate-700)
+                        "text-secondary": "#94a3b8", // Muted blue-gray text (slate-400)
+                        "accent-blue": "#60a5fa", // Lighter accent blue
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 w-full border-b border-blue-100 dark:border-border-dark bg-white/80 dark:bg-background-dark/80 backdrop-blur-md shadow-sm">
+<div class="px-4 md:px-10 py-3 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="text-primary size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block text-slate-800 dark:text-white">CryptoWallet</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="text-sm font-medium text-primary" href="#">Watchlist</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex h-10 px-4 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-blue-500/20">
+                        Connect Wallet
+                    </button>
+<div class="size-10 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="User profile avatar showing a colorful abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGDp8TFyC4o18b6EaA1_bhOAbUJ6MCHCHz1UOC_cj9muDLYcomMwgMBEkimEmsf4M1fUBn_uiuEyrgOcqmr-vBmE-xVrZoIZmf-oOyapYg0zDZEJLMug_Y4O1WT5MCn2nDw9mHC8t2WOv-O9bvOnrE_15jvy-MJCEZOOvQCtHYhbP9O7XtaqpRzCXqf3fhuELxUbQXxfzpgPkjwJwTxPDPWUSLgZz-8FSOId4iI3_0-q4uvBD7J1pRJ2hyRA6iDkRHFwFctTpNkls");'>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">My Watchlist</h1>
+<p class="text-slate-500 dark:text-text-secondary text-base">Track your favorite assets and manage price alerts.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 dark:border-border-dark hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors text-sm font-medium text-slate-600 dark:text-text-secondary hover:text-slate-900 dark:hover:text-white">
+<span class="material-symbols-outlined text-[20px]">notifications_off</span>
+                    Mute All
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 dark:border-border-dark hover:bg-red-50 dark:hover:bg-red-500/10 hover:border-red-200 dark:hover:border-red-500/50 transition-colors text-sm font-medium text-slate-600 dark:text-text-secondary hover:text-red-600 dark:hover:text-red-400">
+<span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+                    Clear List
+                </button>
+</div>
+</div>
+<div class="mb-8">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary/70">search</span>
+</div>
+<input class="block w-full h-14 pl-12 pr-32 rounded-xl border-none bg-white dark:bg-surface-dark text-lg text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-shadow shadow-sm shadow-blue-900/5 dark:shadow-none" placeholder="Search for a coin to add... (e.g. Bitcoin, BTC)" type="text"/>
+<div class="absolute inset-y-0 right-2 flex items-center">
+<button class="h-10 px-6 rounded-lg bg-blue-50 dark:bg-primary/20 text-primary hover:bg-primary hover:text-white font-bold text-sm transition-all">
+                        Add Coin
+                    </button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden shadow-sm shadow-blue-900/5">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-border-dark">
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary w-[250px]">Asset</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary">Price</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary">24h Change</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary hidden lg:table-cell">Market Cap</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary text-center">Notifications</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-text-secondary text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-border-dark">
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/70 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white shadow-sm p-1 border border-slate-100 dark:border-slate-700">
+<img alt="Bitcoin logo" class="w-full h-full object-contain" data-alt="Bitcoin cryptocurrency logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-Jw6-JGoemhpRD1BPjFOzc02H5pf24wQ3Zzmm671hGPnlAsY1ul8_-B9bD896Ols2GoF4bBu7q_IdPaFs-o_0YMSlBrx3VvX9ro6tLIth6G9LVEMjq_kNzAAZfU-OMhvz9ull1zoRdSXkE1z8tnVKB4ZOdRXavkIJkloDJNhlPc0u1qrL_wYgYlX5M0l2yem88ixWMPbQjxVLKPZxKBjFaCUwrd8l1v9siV5ksb-8NDEvng1MdWJdSnwGk3wHLZDYwcQWRLJFfuw"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Bitcoin</div>
+<div class="text-xs font-medium text-slate-500 dark:text-text-secondary">BTC</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-mono font-medium text-slate-900 dark:text-white">
+                                $42,300.00
+                            </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                                    +2.4%
+                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-text-secondary hidden lg:table-cell">
+                                $820B
+                            </td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-6">
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-primary transition-colors">
+<span class="translate-x-4 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Email</span>
+</label>
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-300 dark:bg-slate-700 transition-colors">
+<span class="translate-x-1 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Push</span>
+</label>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-slate-700 text-slate-400 hover:text-primary transition-colors" title="Custom Price Alert">
+<span class="material-symbols-outlined">add_alert</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors" title="Remove from Watchlist">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/70 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white shadow-sm p-1 border border-slate-100 dark:border-slate-700">
+<img alt="Ethereum logo" class="w-full h-full object-contain" data-alt="Ethereum cryptocurrency logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd6fXoLoP09TE514MzZJ4DpLEJw9IiwCFYal1aD5VuO7yw8latgVqBy3uszsj5KtCUtxWMs1vNW_qnd4yh3Ul_RjTpluOXyBZBm3_8rDdze1FjPlLSLfhg49Ax2i7lTPVm02U4qOfLzTMxIcg5Bg83doBXETsJh4p4ic5iOClLbQMXUHDf_htr5RG0ED6F0cm2E20h0wlU1ivxe5K1xX1vkIZpIJkCHVgcQRg2y69liKC5vbUgaBkfYK8s6RDwrU5QobnBPg3rqS4"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Ethereum</div>
+<div class="text-xs font-medium text-slate-500 dark:text-text-secondary">ETH</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-mono font-medium text-slate-900 dark:text-white">
+                                $2,200.00
+                            </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_down</span>
+                                    -1.2%
+                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-text-secondary hidden lg:table-cell">
+                                $260B
+                            </td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-6">
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-300 dark:bg-slate-700 transition-colors">
+<span class="translate-x-1 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Email</span>
+</label>
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-primary transition-colors">
+<span class="translate-x-4 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Push</span>
+</label>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-slate-700 text-slate-400 hover:text-primary transition-colors" title="Custom Price Alert">
+<span class="material-symbols-outlined">add_alert</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors" title="Remove from Watchlist">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/70 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white shadow-sm p-1 border border-slate-100 dark:border-slate-700">
+<img alt="Solana logo" class="w-full h-full object-contain" data-alt="Solana cryptocurrency logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuhv9JL-MZd-FrPJ8s80dFgNYhuUKBWf_fpJcMjqgp1rfpwYKXhlsEsb52K8PQQxZUmHDrXmdv4GF5YZaHAztfNXvvcnHBltR3gxIHONTy1xzfMjjwkn6bZDqwSbXurEI9ITiKwnXgC_EL2tAUmWDcoFJ1X1k04xH6bQxyvkbVc4G-bwMRI5clcaJnWUluVlr8z8M9i9UTJ0FE05lI0JhPYxgVGHSGx7rcwJC8iOj22AkW6g6aCSMdZFw3LUrS6eyQ79aVAAFfgVk"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Solana</div>
+<div class="text-xs font-medium text-slate-500 dark:text-text-secondary">SOL</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-mono font-medium text-slate-900 dark:text-white">
+                                $98.50
+                            </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                                    +5.6%
+                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-text-secondary hidden lg:table-cell">
+                                $42B
+                            </td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-6">
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-primary transition-colors">
+<span class="translate-x-4 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Email</span>
+</label>
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-primary transition-colors">
+<span class="translate-x-4 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Push</span>
+</label>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-slate-700 text-slate-400 hover:text-primary transition-colors" title="Custom Price Alert">
+<span class="material-symbols-outlined">add_alert</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors" title="Remove from Watchlist">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/70 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white shadow-sm p-1 border border-slate-100 dark:border-slate-700">
+<img alt="Cardano logo" class="w-full h-full object-contain" data-alt="Cardano cryptocurrency logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlCrR78-_fMusVUutO-agj2lOynHsdPwtEUEgE1oPZoQdiNsMjlj5ZIxwhRc2Xrr8sx9d0LmzvcNHeDoZC7aPh9eAGZssuICrukvdo2LN9iLLwppTMHeeSF43YzbV7FGkmwxjgMdpuJ-pcMOBvSMPgtJVtDw_eW6GpQaz2S97CE4P5-41kiuU6zV5xn1_YaQK6BUPPPVrh4skeYTKh8h5DWq6OaHJBK0SxUiaZyDdwU8daaCtByscDURKJXbcSmzYRstx00o4cF7Y"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Cardano</div>
+<div class="text-xs font-medium text-slate-500 dark:text-text-secondary">ADA</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-mono font-medium text-slate-900 dark:text-white">
+                                $0.55
+                            </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                                    +0.8%
+                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-text-secondary hidden lg:table-cell">
+                                $19B
+                            </td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-6">
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-300 dark:bg-slate-700 transition-colors">
+<span class="translate-x-1 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Email</span>
+</label>
+<label class="flex flex-col items-center gap-1 cursor-pointer group/toggle">
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-300 dark:bg-slate-700 transition-colors">
+<span class="translate-x-1 inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform shadow-sm"></span>
+</div>
+<span class="text-[10px] text-slate-500 dark:text-text-secondary group-hover/toggle:text-primary transition-colors">Push</span>
+</label>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-slate-700 text-slate-400 hover:text-primary transition-colors" title="Custom Price Alert">
+<span class="material-symbols-outlined">add_alert</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors" title="Remove from Watchlist">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-200 dark:border-border-dark flex items-center justify-between">
+<p class="text-sm text-slate-500 dark:text-text-secondary">Showing <span class="font-medium text-slate-900 dark:text-white">4</span> of <span class="font-medium text-slate-900 dark:text-white">12</span> assets</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-sm rounded border border-slate-200 dark:border-border-dark text-slate-500 dark:text-text-secondary hover:bg-slate-50 dark:hover:bg-surface-dark disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 text-sm rounded border border-slate-200 dark:border-border-dark text-slate-500 dark:text-text-secondary hover:bg-slate-50 dark:hover:bg-surface-dark">Next</button>
+</div>
+</div>
+</div>
+<div class="hidden mt-8 flex-col items-center justify-center py-20 bg-white dark:bg-surface-dark rounded-xl border border-dashed border-slate-300 dark:border-border-dark">
+<div class="size-16 rounded-full bg-blue-50 dark:bg-slate-800 flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined text-4xl">savings</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Your watchlist is empty</h3>
+<p class="text-slate-500 dark:text-text-secondary max-w-sm text-center mb-6">Start tracking your favorite cryptocurrencies by searching for them above.</p>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-blue-500/20">
+                 Discover Assets
+             </button>
+</div>
+</main>
+
+</body></html>

@@ -1,0 +1,42 @@
+<aside class="sidebar" [class.open]="isSidebarOpen">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="pi pi-wallet"></i>
+      </div>
+      <div class="logo-text">
+        <div class="logo-title">CryptoWallet</div>
+        <div class="logo-subtitle">Manage Assets</div>
+      </div>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <i class="pi" [ngClass]="isSidebarOpen ? 'pi-chevron-left' : 'pi-chevron-right'"></i>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-menu">
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" routerLinkActive="active" class="nav-link">
+          <span class="nav-icon"><i [class]="item.icon"></i></span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="settings-btn" type="button">
+      <span class="settings-icon"><i class="pi pi-cog"></i></span>
+      <span class="settings-label">Settings</span>
+    </button>
+    <div class="footer-divider" aria-hidden="true"></div>
+    <div class="user-profile">
+      <div class="avatar" aria-hidden="true"><i class="pi pi-user"></i></div>
+      <div class="user-info">
+        <div class="user-name">Jane Doe</div>
+        <div class="user-status">Pro Member</div>
+      </div>
+    </div>
+  </div>
+</aside>

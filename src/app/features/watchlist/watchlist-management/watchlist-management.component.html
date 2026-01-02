@@ -1,0 +1,277 @@
+<div class="watchlist-container">
+  <!-- Header Section -->
+  <div class="watchlist-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>My Watchlist</h1>
+        <p>Track your favorite assets and manage price alerts.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" title="Mute All Alerts">
+          <i class="pi pi-bell-slash" aria-hidden="true"></i>
+          Mute All
+        </button>
+        <button class="btn btn-secondary" title="Clear Watchlist">
+          <i class="pi pi-trash" aria-hidden="true"></i>
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-container">
+      <i class="pi pi-search search-icon" aria-hidden="true"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search for a coin... (e.g. Bitcoin, BTC)"
+        [(ngModel)]="searchQuery"
+      />
+      <button class="btn btn-add" type="button">
+        <i class="pi pi-plus" aria-hidden="true"></i>
+        Add Coin
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+    {{ error }}
+    <button class="close-btn" (click)="error = null">
+      <i class="pi pi-times" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading watchlist...</p>
+  </div>
+
+  <!-- Watchlist Content -->
+  <div *ngIf="!loading" class="watchlist-content">
+    <!-- Empty State -->
+    <div *ngIf="filteredWatchlist.length === 0" class="empty-state">
+      <i class="pi pi-clock" aria-hidden="true"></i>
+      <h3>No items in watchlist</h3>
+      <p>Start tracking your favorite cryptocurrencies</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="filteredWatchlist.length > 0" class="table-wrapper">
+      <table class="watchlist-table">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Price</th>
+            <th>24h Change</th>
+            <th class="hidden-mobile">Market Cap</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredWatchlist" class="table-row">
+            <!-- Asset Column -->
+            <td class="asset-cell">
+              <div class="asset-info">
+                <div class="coin-icon">
+                  <img [src]="item.image" [alt]="item.coinName" />
+                </div>
+                <div class="coin-details">
+                  <div class="coin-name">{{ item.coinName }}</div>
+                  <div class="coin-symbol">{{ item.symbol | uppercase }}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Price Column -->
+            <td class="price-cell">
+              <span class="price-value">{{ formatPrice(item.currentPrice) }}</span>
+            </td>
+
+            <!-- 24h Change Column -->
+            <td class="change-cell">
+              <span class="change-badge">
+                <i class="pi pi-arrow-up-right" aria-hidden="true"></i>
+                +2.4%
+              </span>
+            </td>
+
+            <!-- Market Cap Column -->
+            <td class="market-cap-cell hidden-mobile">
+              $820B
+            </td>
+
+            <!-- Actions Column -->
+            <td class="actions-cell">
+              <div class="action-buttons">
+                <button class="action-btn alert-btn" type="button" title="Alert settings" (click)="openAlertModal(item)">
+                  <i class="pi pi-bell" aria-hidden="true"></i>
+                </button>
+                <button
+                  class="action-btn delete-btn"
+                  type="button"
+                  title="Remove from Watchlist"
+                  (click)="removeFromWatchlist(item.coinId, item.coinName)"
+                >
+                  <i class="pi pi-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="filteredWatchlist.length > 0" class="pagination">
+      <span class="pagination-info">Showing {{ filteredWatchlist.length }} of {{ watchlistItems.length }} assets</span>
+      <div class="pagination-controls">
+        <button class="pagination-btn" disabled>Previous</button>
+        <button class="pagination-btn" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert Modal -->
+  <div *ngIf="showAlertModal" class="modal-backdrop" (click)="closeAlertModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h2>Alert settings</h2>
+          <p *ngIf="selectedCoinId">Coin: {{ selectedCoinId }}</p>
+        </div>
+        <button class="modal-close" type="button" (click)="closeAlertModal()" aria-label="Close">
+          <i class="pi pi-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <!-- Form -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <i class="pi" [class.pi-plus]="!editingAlertId" [class.pi-pencil]="!!editingAlertId" aria-hidden="true"></i>
+                <span>{{ editingAlertId ? 'Edit alert' : 'Create alert' }}</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" type="button" (click)="startNewAlert()" [disabled]="alertSaving">
+                <i class="pi pi-plus" aria-hidden="true"></i>
+                New
+              </button>
+            </div>
+
+            <form class="alert-form" (ngSubmit)="saveAlert()">
+              <div class="form-row">
+                <label>Type</label>
+                <select class="form-control" [(ngModel)]="alertForm.type" name="type">
+                  <option [ngValue]="1">Price</option>
+                  <option [ngValue]="2">Balance</option>
+                </select>
+              </div>
+
+              <div class="form-row two">
+                <div>
+                  <label>Above Price</label>
+                  <input class="form-control" type="number" step="0.01" [(ngModel)]="alertForm.abovePrice" name="abovePrice" />
+                </div>
+                <div>
+                  <label>Below Price</label>
+                  <input class="form-control" type="number" step="0.01" [(ngModel)]="alertForm.belowPrice" name="belowPrice" />
+                </div>
+              </div>
+
+              <div class="form-row two">
+                <div>
+                  <label>Above % From Buy</label>
+                  <input class="form-control" type="number" step="0.01" [(ngModel)]="alertForm.abovePercentFromBuy" name="abovePercentFromBuy" />
+                </div>
+                <div>
+                  <label>Below % From Buy</label>
+                  <input class="form-control" type="number" step="0.01" [(ngModel)]="alertForm.belowPercentFromBuy" name="belowPercentFromBuy" />
+                </div>
+              </div>
+
+              <div class="form-row two">
+                <div>
+                  <label>Balance Below</label>
+                  <input class="form-control" type="number" step="0.00000001" [(ngModel)]="alertForm.balanceBelow" name="balanceBelow" />
+                </div>
+                <div>
+                  <label>Cooldown Minutes</label>
+                  <input class="form-control" type="number" step="1" min="0" [(ngModel)]="alertForm.cooldownMinutes" name="cooldownMinutes" />
+                </div>
+              </div>
+
+              <div class="form-row inline">
+                <label class="checkbox">
+                  <input type="checkbox" [(ngModel)]="alertForm.isActive" name="isActive" />
+                  <span>Active</span>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-add" type="submit" [disabled]="alertSaving">
+                  <i class="pi" [class.pi-save]="!!editingAlertId" [class.pi-plus]="!editingAlertId" aria-hidden="true"></i>
+                  {{ alertSaving ? 'Saving...' : (editingAlertId ? 'Update alert' : 'Create alert') }}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Existing alerts -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <i class="pi pi-list" aria-hidden="true"></i>
+                <span>Existing alerts</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" type="button" (click)="loadAlerts()" [disabled]="alertSaving">
+                <i class="pi pi-refresh" aria-hidden="true"></i>
+                Refresh
+              </button>
+            </div>
+
+            <div class="alerts-list" *ngIf="selectedCoinId as cid">
+              <div *ngIf="getCoinAlerts(cid).length === 0" class="alerts-empty">
+                <i class="pi pi-info-circle" aria-hidden="true"></i>
+                <span>No alerts for this coin yet.</span>
+              </div>
+
+              <div *ngFor="let a of getCoinAlerts(cid)" class="alert-item" [class.active]="a.isActive">
+                <div class="alert-meta">
+                  <div class="alert-type">
+                    <span class="pill">{{ getAlertTypeLabel(a.type) }}</span>
+                    <span class="muted">Cooldown: {{ a.cooldownMinutes }}m</span>
+                  </div>
+                  <div class="alert-values">
+                    <span *ngIf="a.abovePrice">Above: {{ formatPrice(a.abovePrice) }}</span>
+                    <span *ngIf="a.belowPrice">Below: {{ formatPrice(a.belowPrice) }}</span>
+                    <span *ngIf="a.abovePercentFromBuy">+{{ a.abovePercentFromBuy }}%</span>
+                    <span *ngIf="a.belowPercentFromBuy">-{{ a.belowPercentFromBuy }}%</span>
+                    <span *ngIf="a.balanceBelow">Balance &lt; {{ a.balanceBelow }}</span>
+                  </div>
+                </div>
+
+                <div class="alert-actions">
+                  <button class="icon-btn" type="button" (click)="toggleAlertStatus(a)" [title]="a.isActive ? 'Disable' : 'Enable'">
+                    <i class="pi" [class.pi-toggle-on]="a.isActive" [class.pi-toggle-off]="!a.isActive" aria-hidden="true"></i>
+                  </button>
+                  <button class="icon-btn" type="button" (click)="editAlert(a)" title="Edit">
+                    <i class="pi pi-pencil" aria-hidden="true"></i>
+                  </button>
+                  <button class="icon-btn danger" type="button" (click)="deleteAlertFromModal(a.id)" title="Delete">
+                    <i class="pi pi-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

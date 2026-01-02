@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login-component/login-component';
 import { RegisterComponent } from './features/auth/register-component/register-component';
 import { HomeComponent } from './features/home/pages/home-page/home-page';
+import { CoinDetailsComponent } from './features/coin/coin-details/coin-details.component';
+import { WatchlistManagementComponent } from './features/watchlist/watchlist-management/watchlist-management.component';
+import { WalletComponent } from './features/wallet/wallet.component';
+import { DepositFundsComponent } from './features/wallet/deposit-funds/deposit-funds.component';
 import { MainLayoutComponent } from './core/layouts/main-layout';
 import { AuthGuard, PublicGuard } from './core/guards/auth.guards';
 
@@ -30,10 +34,22 @@ export const routes: Routes = [
         path: 'home',
         component: HomeComponent
         },
-        // {
-        // path: 'wallet',
-        // component: WalletComponent
-        // },
+        {
+        path: 'wallet',
+        component: WalletComponent
+        },
+        {
+        path: 'wallet/deposit',
+        component: DepositFundsComponent
+        },
+        {
+        path: 'coin/:id',
+        component: CoinDetailsComponent
+        },
+        {
+        path: 'watchlist',
+        component: WatchlistManagementComponent
+        },
         // {
         // path: 'exchange',
         // component: ExchangeComponent

@@ -9,25 +9,33 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    height: 64px;
+    height: 56px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(51, 65, 85, 0.5);
     background: rgba(15, 23, 42, 0.7);
     backdrop-filter: blur(10px);
+
+    @media (max-width: 576px) {
+        height: 50px;
+    }
 }
 
 .topbar-inner {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     @media (max-width: 768px) {
         padding: 0 1rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 0.75rem;
     }
 }
 

@@ -1,0 +1,277 @@
+<div class="deposit-container">
+  <div class="header">
+    <div class="title">
+      <h1>Deposit Funds</h1>
+      <p>Choose a payment method to add funds to your wallet.</p>
+    </div>
+
+    <div class="balance-box">
+      <div class="label">Current Balance</div>
+      <div class="value mono">{{ formatMoney(wallet?.balance ?? 0) }} USD</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="left">
+      <!-- Step 1 -->
+      <section class="section">
+        <div class="section-title">
+          <span class="step">1</span>
+          <h3>Select Payment Method</h3>
+        </div>
+
+        <div class="method-grid">
+          <label class="method" [class.selected]="selectedMethod === 'BANK_TRANSFER'">
+            <input type="radio" name="payment" [(ngModel)]="selectedMethod" value="BANK_TRANSFER" />
+            <div class="method-body">
+              <i class="pi pi-building method-icon" aria-hidden="true"></i>
+              <div class="method-text">
+                <div class="method-name">Bank Transfer</div>
+                <div class="method-sub">1-3 days • 0% fee</div>
+              </div>
+              <i *ngIf="selectedMethod === 'BANK_TRANSFER'" class="pi pi-check-circle check" aria-hidden="true"></i>
+            </div>
+          </label>
+
+          <label class="method" [class.selected]="selectedMethod === 'INSTANT_CARD'">
+            <input type="radio" name="payment" [(ngModel)]="selectedMethod" value="INSTANT_CARD" />
+            <div class="method-body">
+              <i class="pi pi-credit-card method-icon" aria-hidden="true"></i>
+              <div class="method-text">
+                <div class="method-name">Instant Card</div>
+                <div class="method-sub">Instant • 2.5% fee</div>
+              </div>
+              <i *ngIf="selectedMethod === 'INSTANT_CARD'" class="pi pi-check-circle check" aria-hidden="true"></i>
+            </div>
+          </label>
+
+          <label class="method" [class.selected]="selectedMethod === 'WIRE_TRANSFER'">
+            <input type="radio" name="payment" [(ngModel)]="selectedMethod" value="WIRE_TRANSFER" />
+            <div class="method-body">
+              <i class="pi pi-arrow-right-arrow-left method-icon" aria-hidden="true"></i>
+              <div class="method-text">
+                <div class="method-name">Wire Transfer</div>
+                <div class="method-sub">1-5 days • $15 fee</div>
+              </div>
+              <i *ngIf="selectedMethod === 'WIRE_TRANSFER'" class="pi pi-check-circle check" aria-hidden="true"></i>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="section">
+        <div class="section-title">
+          <span class="step">2</span>
+          <h3>Enter Amount</h3>
+        </div>
+
+        <div class="amount-row">
+          <div class="field">
+            <label>Currency</label>
+            <div class="select-wrap">
+              <select class="control" [(ngModel)]="currency" name="currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+              </select>
+              <i class="pi pi-chevron-down chevron" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="field grow">
+            <label>Deposit Amount</label>
+            <div class="money-input">
+              <span class="prefix">$</span>
+              <input
+                class="control"
+                type="number"
+                min="0"
+                step="0.01"
+                [(ngModel)]="amount"
+                name="amount"
+                placeholder="500.00"
+              />
+              <button class="max-btn" type="button" (click)="setMax()">Max</button>
+            </div>
+            <div class="hint">
+              <i class="pi pi-info-circle" aria-hidden="true"></i>
+              <span>
+                Min deposit: {{ formatMoney(minDeposit) }} • Max deposit: {{ formatMoney(maxDeposit) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="section">
+        <div class="section-title">
+          <span class="step">3</span>
+          <h3>Transfer Details</h3>
+        </div>
+
+        <div class="details">
+          <div class="details-head">
+            <span>Use these details for your transfer</span>
+            <span class="tag">Reference Required</span>
+          </div>
+
+          <div class="details-body">
+            <div class="warning">
+              <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+              <p>
+                Please include the <strong>Reference Code</strong> below in your bank transfer description.
+                Without it, your deposit may be delayed.
+              </p>
+            </div>
+
+            <div class="detail-grid">
+              <div class="detail">
+                <div class="detail-label">Beneficiary Name</div>
+                <div class="detail-value">
+                  <span class="mono">CryptoWallet Ltd.</span>
+                  <button class="icon-btn" type="button" (click)="copy('CryptoWallet Ltd.')" aria-label="Copy">
+                    <i class="pi pi-copy" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="detail">
+                <div class="detail-label">Bank Name</div>
+                <div class="detail-value">
+                  <span class="mono">Silvergate Bank</span>
+                  <button class="icon-btn" type="button" (click)="copy('Silvergate Bank')" aria-label="Copy">
+                    <i class="pi pi-copy" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="detail span-2">
+                <div class="detail-label">IBAN / Account Number</div>
+                <div class="detail-value">
+                  <span class="mono">US88 0000 0000 1234 5678 99</span>
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    (click)="copy('US88 0000 0000 1234 5678 99')"
+                    aria-label="Copy"
+                  >
+                    <i class="pi pi-copy" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="detail span-2">
+                <div class="detail-label primary">Unique Reference Code (Memo)</div>
+                <div class="detail-value ref">
+                  <span class="mono strong">{{ referenceCode }}</span>
+                  <button class="icon-btn primary" type="button" (click)="copy(referenceCode)" aria-label="Copy">
+                    <i class="pi pi-copy" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="faq">
+        <h4>Frequently Asked Questions</h4>
+        <div class="faq-grid">
+          <a class="faq-item" href="#">
+            <div class="faq-title">
+              <span>Where is my deposit?</span>
+              <i class="pi pi-external-link" aria-hidden="true"></i>
+            </div>
+            <div class="faq-sub">Learn about processing times and tracking.</div>
+          </a>
+          <a class="faq-item" href="#">
+            <div class="faq-title">
+              <span>Deposit Limits & Fees</span>
+              <i class="pi pi-external-link" aria-hidden="true"></i>
+            </div>
+            <div class="faq-sub">View the complete schedule of limits for your account tier.</div>
+          </a>
+          <a class="faq-item" href="#">
+            <div class="faq-title">
+              <span>Bank Transfer Guide</span>
+              <i class="pi pi-external-link" aria-hidden="true"></i>
+            </div>
+            <div class="faq-sub">Step-by-step instructions for wire transfers.</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="right">
+      <div class="summary">
+        <h3>Summary</h3>
+
+        <div class="summary-lines">
+          <div class="line">
+            <span class="k">Deposit Method</span>
+            <span class="v"><i class="pi" [class]="methodIcon(selectedMethod)" aria-hidden="true"></i> {{ methodLabel(selectedMethod) }}</span>
+          </div>
+          <div class="line">
+            <span class="k">Deposit Amount</span>
+            <span class="v">{{ formatMoney(amount) }}</span>
+          </div>
+          <div class="line">
+            <span class="k">Transaction Fee</span>
+            <span class="v primary">{{ summaryFeeLabel }}</span>
+          </div>
+          <div class="line">
+            <span class="k">Processing Time</span>
+            <span class="v">{{ summaryTimeLabel }}</span>
+          </div>
+        </div>
+
+        <div class="total">
+          <div class="k">Total to Credit</div>
+          <div class="v">
+            <div class="amt">{{ formatMoney(amount) }}</div>
+            <div class="cur">{{ currency }}</div>
+          </div>
+        </div>
+
+        <button class="submit" type="button" (click)="submitDeposit()" [disabled]="saving">
+          {{ saving ? 'Processing...' : "I've Sent the Funds" }}
+          <i class="pi pi-arrow-right" aria-hidden="true"></i>
+        </button>
+
+        <p class="terms">
+          By clicking above, you agree to our <a href="#">Terms of Service</a>.
+        </p>
+
+        <div class="badges">
+          <div class="badge">
+            <i class="pi pi-lock" aria-hidden="true"></i>
+            <span>SSL Secure</span>
+          </div>
+          <div class="badge">
+            <i class="pi pi-verified" aria-hidden="true"></i>
+            <span>Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo">
+        <div class="promo-text">
+          <div class="promo-title">New: Instant Buy</div>
+          <div class="promo-sub">Buy crypto directly with 0 fees.</div>
+        </div>
+      </div>
+
+      <a class="back" routerLink="/wallet">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+        Back to Wallet
+      </a>
+    </aside>
+  </div>
+
+  <div *ngIf="toast" class="toast" [class.success]="toast.kind === 'success'" [class.error]="toast.kind === 'error'">
+    <i class="pi" [class.pi-check-circle]="toast.kind === 'success'" [class.pi-exclamation-circle]="toast.kind === 'error'" aria-hidden="true"></i>
+    <span>{{ toast.message }}</span>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 .main-layout {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #0f172a;
   color: #ffffff;
   overflow: hidden;
@@ -8,7 +8,7 @@
 
 // ===== SIDEBAR STYLES =====
 .sidebar {
-  width: 280px;
+  width: 260px;
   background: linear-gradient(135deg, #0f172a 0%, #1a202c 100%);
   border-right: 1px solid rgba(71, 85, 105, 0.4);
   display: flex;
@@ -16,18 +16,26 @@
   transition: width 0.3s ease, transform 0.3s ease;
   z-index: 100;
 
+  @media (max-width: 1024px) {
+    width: 240px;
+  }
+
   @media (max-width: 768px) {
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
-    width: 280px;
+    width: 260px;
     transform: translateX(-100%);
 
     &.open {
       transform: translateX(0);
       box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
     }
+  }
+
+  @media (max-width: 576px) {
+    width: 240px;
   }
 }
 
@@ -57,8 +65,24 @@
 }
 
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 70px;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 576px) {
+    padding: 0.9rem;
+  }
+
+  & {
+    border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+  }
 }
 
 .logo {
@@ -273,7 +297,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: #0f172a;
 
   @media (max-width: 768px) {

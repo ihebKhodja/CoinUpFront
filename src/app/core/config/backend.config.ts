@@ -3,6 +3,12 @@
  * Uses environment variables from .env file
  */
 
+declare const process:
+  | {
+      env?: Record<string, string | undefined>;
+    }
+  | undefined;
+
 // Helper function to get environment variables (with fallback defaults)
 function getEnv(key: string, defaultValue: string): string {
   // In Angular, environment variables are typically accessed through environment.ts

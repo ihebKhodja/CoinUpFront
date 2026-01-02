@@ -20,8 +20,9 @@ export class MainLayoutComponent implements OnInit {
   menuItems = [
     { icon: 'pi pi-home', label: 'Dashboard', route: '/home' },
     { icon: 'pi pi-wallet', label: 'Wallet', route: '/wallet' },
-    { icon: 'pi pi-arrow-right-arrow-left', label: 'Exchange', route: '/exchange' },
-    { icon: 'pi pi-chart-line', label: 'Activity', route: '/activity' }
+    { icon: 'pi pi-star', label: 'Watchlist', route: '/watchlist' },
+    // { icon: 'pi pi-arrow-right-arrow-left', label: 'Exchange', route: '/exchange' },
+    // { icon: 'pi pi-chart-line', label: 'Activity', route: '/activity' }
   ];
 
   constructor(private authService: AuthService, private router: Router) {

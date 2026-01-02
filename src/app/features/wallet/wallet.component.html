@@ -1,0 +1,220 @@
+<div class="wallet-container">
+  <div class="wallet-header">
+    <div class="title">
+      <h1>My Wallet</h1>
+      <p>View balance, holdings, and transactions.</p>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-ghost" routerLink="/wallet/deposit">
+        <i class="pi pi-download" aria-hidden="true"></i>
+        Deposit
+      </a>
+      <button class="btn btn-primary" type="button" (click)="openTrade('BUY')">
+        <i class="pi pi-plus" aria-hidden="true"></i>
+        Buy
+      </button>
+      <button class="btn btn-secondary" type="button" (click)="openTrade('SELL')">
+        <i class="pi pi-arrow-up" aria-hidden="true"></i>
+        Sell
+      </button>
+      <button class="btn btn-ghost" type="button" (click)="refreshAll()">
+        <i class="pi pi-refresh" aria-hidden="true"></i>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-banner">
+    <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+    <span>{{ error }}</span>
+    <button type="button" class="icon-btn" (click)="error = null" aria-label="Dismiss">
+      <i class="pi pi-times" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <span>Loading wallet...</span>
+  </div>
+
+  <div *ngIf="!loading" class="content">
+    <div class="cards">
+      <section class="card balance-card">
+        <div class="card-header">
+          <span class="label">Total Balance</span>
+          <i class="pi pi-wallet" aria-hidden="true"></i>
+        </div>
+        <div class="card-value">{{ formatMoney(wallet?.balance ?? 0) }}</div>
+        <div class="card-sub">Wallet ID: {{ wallet?.walletId || '-' }}</div>
+      </section>
+
+      <section class="card summary-card">
+        <div class="card-header">
+          <span class="label">Holdings</span>
+          <i class="pi pi-chart-pie" aria-hidden="true"></i>
+        </div>
+        <div class="card-value">{{ wallet?.holdings?.length || 0 }}</div>
+        <div class="card-sub">assets in wallet</div>
+      </section>
+
+      <section class="card summary-card">
+        <div class="card-header">
+          <span class="label">Last Updated</span>
+          <i class="pi pi-clock" aria-hidden="true"></i>
+        </div>
+        <div class="card-value small">
+          {{ wallet?.holdings?.[0]?.lastUpdated ? formatDate(wallet!.holdings[0].lastUpdated) : '-' }}
+        </div>
+        <div class="card-sub">from latest holding</div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Your Assets</h2>
+      </div>
+
+      <div class="table-wrap" *ngIf="(wallet?.holdings?.length || 0) > 0; else emptyHoldings">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th class="right">Avg Buy</th>
+              <th class="right">Quantity</th>
+              <th class="right">Value</th>
+              <th class="right">Profit</th>
+              <th class="center">Trade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let h of wallet?.holdings">
+              <td>
+                <div class="asset">
+                  <div class="badge">
+                    <span>{{ (h.symbol || '?') | uppercase }}</span>
+                  </div>
+                  <div class="asset-meta">
+                    <div class="name">{{ h.coinId }}</div>
+                    <div class="symbol">{{ h.symbol | uppercase }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="right mono">{{ formatMoney(h.averageBuyPrice) }}</td>
+              <td class="right mono">{{ formatNumber(h.quantity, 8) }}</td>
+              <td class="right mono">{{ formatMoney(h.currentValue) }}</td>
+              <td class="right">
+                <span class="pill" [class.negative]="h.profit < 0" [class.positive]="h.profit > 0">
+                  {{ formatMoney(h.profit) }}
+                </span>
+              </td>
+              <td class="center">
+                <button class="icon-btn" type="button" title="Buy" (click)="openTrade('BUY', h.coinId)">
+                  <i class="pi pi-plus" aria-hidden="true"></i>
+                </button>
+                <button class="icon-btn" type="button" title="Sell" (click)="openTrade('SELL', h.coinId)">
+                  <i class="pi pi-arrow-up" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #emptyHoldings>
+        <div class="empty">
+          <i class="pi pi-inbox" aria-hidden="true"></i>
+          <div>
+            <h3>No assets yet</h3>
+            <p>Use the Buy button to create your first holding.</p>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Transactions</h2>
+      </div>
+
+      <div class="table-wrap" *ngIf="transactions.length > 0; else emptyTx">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Coin</th>
+              <th class="right">Quantity</th>
+              <th class="right">Price</th>
+              <th class="right">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of transactions">
+              <td>
+                <span class="pill" [class.positive]="(t.type || '').toLowerCase() === 'buy'" [class.negative]="(t.type || '').toLowerCase() === 'sell'">
+                  {{ t.type }}
+                </span>
+              </td>
+              <td class="mono">{{ t.coinId }}</td>
+              <td class="right mono">{{ formatNumber(t.quantity, 8) }}</td>
+              <td class="right mono">{{ formatMoney(t.priceAtOperation) }}</td>
+              <td class="right">{{ formatDate(t.timestamp) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #emptyTx>
+        <div class="empty">
+          <i class="pi pi-clock" aria-hidden="true"></i>
+          <div>
+            <h3>No transactions</h3>
+            <p>Your buy/sell history will appear here.</p>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+
+  <!-- Trade modal -->
+  <div *ngIf="showTradeModal" class="modal-backdrop" (click)="closeTrade()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h2>{{ tradeMode === 'BUY' ? 'Buy' : 'Sell' }}</h2>
+          <p>Enter coin id and quantity.</p>
+        </div>
+        <button class="icon-btn" type="button" (click)="closeTrade()" aria-label="Close">
+          <i class="pi pi-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form class="form" (ngSubmit)="submitTrade()">
+        <div class="row">
+          <label>Coin ID</label>
+          <input class="control" type="text" [(ngModel)]="tradeForm.coinId" name="coinId" placeholder="bitcoin" />
+        </div>
+        <div class="row">
+          <label>Quantity</label>
+          <input class="control" type="number" step="0.00000001" [(ngModel)]="tradeForm.quantity" name="quantity" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" (click)="closeTrade()" [disabled]="tradeSaving">
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit" [disabled]="tradeSaving">
+            <i class="pi" [class.pi-check]="!tradeSaving" [class.pi-spin]="tradeSaving" [class.pi-spinner]="tradeSaving" aria-hidden="true"></i>
+            {{ tradeSaving ? 'Processing...' : (tradeMode === 'BUY' ? 'Buy' : 'Sell') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div *ngIf="toast" class="toast" [class.success]="toast.kind === 'success'" [class.error]="toast.kind === 'error'">
+    <i class="pi" [class.pi-check-circle]="toast.kind === 'success'" [class.pi-exclamation-circle]="toast.kind === 'error'" aria-hidden="true"></i>
+    <span>{{ toast.message }}</span>
+  </div>
+</div>

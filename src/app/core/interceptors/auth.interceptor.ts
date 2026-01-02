@@ -22,11 +22,17 @@ export class AuthInterceptor implements HttpInterceptor {
       this.store
         .select(selectToken)
         .pipe(take(1))
-        .subscribe((token:any) => {
-          if (token) {
+        .subscribe((token: any) => {
+          // Get token from store, or fallback to localStorage
+          let authToken = token;
+          if (!authToken) {
+            authToken = localStorage.getItem('auth_token');
+          }
+
+          if (authToken) {
             request = request.clone({
               setHeaders: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${authToken}`,
               },
             });
           }

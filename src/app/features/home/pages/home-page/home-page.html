@@ -1,101 +1,98 @@
 <div class="home-container">
-    <!-- Header Section -->
-    <div class="header-section">
-      <div class="header-top">
-        <h1 class="header-title">Market Overview</h1>
-        <div class="search-notification">
-          <div class="p-inputgroup search-box">
-            <span class="p-inputgroup-addon">
-              <i class="pi pi-search"></i>
-            </span>
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="searchQuery"
-              (ngModelChange)="onSearchChange($event)"
-              placeholder="Search coin..."
-            />
-          </div>
-          <button
-            pButton
-            type="button"
-            icon="pi pi-bell"
-            class="p-button-rounded p-button-text notification-btn"
-          ></button>
+  <!-- Sticky Header -->
+  <div class="header-top">
+    <div class="header-left">
+      <h1 class="header-title">Market Overview</h1>
+    </div>
+    <div class="header-right">
+      <div class="search-box-wrapper">
+        <div class="p-inputgroup search-box">
+          <span class="p-inputgroup-addon">
+            <i class="pi pi-search"></i>
+          </span>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearchChange($event)"
+            placeholder="Search coin..."
+            class="search-input"
+          />
         </div>
       </div>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-bell"
+        class="p-button-rounded notification-btn"
+      ></button>
+    </div>
+  </div>
 
-      <!-- Stats Cards -->
-      <div class="stats-row row g-3 mt-3">
-        <div class="col-lg-4">
-          <p-card class="stat-card">
-            <ng-template pTemplate="header">
-              <div class="stat-header">
-                <h6 class="stat-label">Total Balance</h6>
-              </div>
-            </ng-template>
-            <div class="stat-content">
-              <h2 class="stat-value">$12,450.00</h2>
-              <div class="stat-change positive">
-                <span class="change-value">+12%</span>
-              </div>
-			  <div class="stat-progress" aria-hidden="true">
-				  <div class="stat-progress-fill"></div>
-			  </div>
-            </div>
-          </p-card>
+  <!-- Stats Cards -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-label">Total Balance</span>
+      </div>
+      <div class="stat-content">
+        <h2 class="stat-value">$12,450.00</h2>
+        <div class="stat-indicator">
+          <span class="badge badge-primary">+1.2%</span>
         </div>
+      </div>
+      <div class="stat-progress">
+        <div class="stat-progress-fill"></div>
+      </div>
+    </div>
 
-        <div class="col-lg-4">
-          <p-card class="stat-card">
-            <ng-template pTemplate="header">
-              <div class="stat-header">
-                <h6 class="stat-label">24h Profit</h6>
-              </div>
-            </ng-template>
-            <div class="stat-content">
-              <h2 class="stat-value">+$240.50</h2>
-              <div class="stat-change positive">
-                <span class="change-value">-5.4%</span>
-                <span class="change-label">Vs. previous day</span>
-              </div>
-            </div>
-          </p-card>
-        </div>
-
-        <div class="col-lg-4">
-          <p-card class="stat-card">
-            <ng-template pTemplate="header">
-              <div class="stat-header">
-                <h6 class="stat-label">Active Assets</h6>
-              </div>
-            </ng-template>
-            <div class="stat-content">
-              <h2 class="stat-value">8</h2>
-              <div class="assets-display">
-                <span class="assets-label">assets in portfolio</span>
-                <div class="avatar-group-custom">
-				  <span class="asset-avatar" *ngFor="let asset of assets | slice: 0 : 3">{{ asset.icon }}</span>
-				  <span class="asset-avatar asset-avatar-more">+{{ assets.length - 3 }}</span>
-                </div>
-              </div>
-            </div>
-          </p-card>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-label">24h Profit</span>
+      </div>
+      <div class="stat-content">
+        <h2 class="stat-value">+$240.50</h2>
+        <div class="stat-indicator">
+          <span class="change-badge positive">+1.2%</span>
+          <span class="change-label">Vs. previous day</span>
         </div>
       </div>
     </div>
 
-    <!-- Market Assets Section -->
-    <div class="market-assets-section mt-5">
-      <div class="section-header">
-        <h2 class="section-title">Market Assets</h2>
-        <div class="tabs-group">
-          <button class="tab-btn active">Favorites</button>
-          <button class="tab-btn">All Assets</button>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-label">Active Assets</span>
+      </div>
+      <div class="stat-content">
+        <h2 class="stat-value">{{ assets.length }}</h2>
+        <div class="assets-info">
+          <span class="assets-label">assets in portfolio</span>
+          <div class="avatar-group">
+            <div class="avatar" *ngFor="let asset of assets | slice: 0 : 3" [title]="asset.name">
+              <img *ngIf="asset.image" [src]="asset.image" [alt]="asset.name" />
+              <span *ngIf="!asset.image">{{ asset.icon }}</span>
+            </div>
+            <div class="avatar avatar-more" *ngIf="assets.length > 3">
+              +{{ assets.length - 3 }}
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-    <div class="market-table-shell">
+  <!-- Market Assets Section -->
+  <div class="market-section">
+    <div class="section-header">
+      <h2 class="section-title">Market Assets</h2>
+      <div class="tab-buttons">
+        <button class="tab-btn active">Favorites</button>
+        <button class="tab-btn">All Assets</button>
+      </div>
+    </div>
+
+    <!-- Market Table -->
+    <div class="table-wrapper">
       <p-table
         [value]="assets"
         [lazy]="true"
@@ -110,57 +107,50 @@
       >
         <ng-template pTemplate="header">
           <tr>
-            <th class="table-header rank-cell">RANK</th>
-            <th class="table-header asset-cell">ASSET</th>
-            <th class="table-header price-cell">PRICE</th>
-            <th class="table-header change-cell">24H CHANGE</th>
-            <th class="table-header marketcap-cell">MARKET CAP</th>
-            <th class="table-header volume-cell">VOLUME</th>
-            <th class="table-header trend-cell">7D TREND</th>
+            <th class="col-asset">ASSET</th>
+            <th class="col-price">PRICE</th>
+            <th class="col-change">24H CHANGE</th>
+            <th class="col-marketcap">MARKET CAP</th>
+            <th class="col-volume">VOLUME</th>
+            <th class="col-trend">7D TREND</th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-asset>
-          <tr class="table-row">
-            <td class="rank-cell">{{ asset.marketCapRank }}</td>
-            <td class="asset-cell">
-              <div class="asset-info">
+          <tr class="table-row" (click)="onRowClick(asset)">
+            <td class="col-asset">
+              <div class="asset-cell">
                 <div class="asset-icon">
                   <img
                     *ngIf="asset.image"
                     [src]="asset.image"
                     [alt]="asset.name"
-                    class="asset-image"
                     loading="lazy"
                   />
-                  <span *ngIf="!asset.image">{{ asset.icon }}</span>
+                  <span *ngIf="!asset.image" class="icon-fallback">{{ asset.icon }}</span>
                 </div>
-                <div class="asset-details">
+                <div class="asset-info-cell">
                   <div class="asset-name">{{ asset.name }}</div>
                   <div class="asset-symbol">{{ asset.symbol }}</div>
                 </div>
               </div>
             </td>
-            <td class="price-cell">${{ asset.price.toLocaleString() }}</td>
-            <td
-              [class.positive-change]="asset.change24h > 0"
-              [class.negative-change]="asset.change24h < 0"
-              class="change-cell"
-            >
-              {{ asset.change24h > 0 ? '+' : '' }}{{ asset.change24h }}%
+            <td class="col-price">${{ asset.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+            <td [class.positive]="asset.change24h > 0" [class.negative]="asset.change24h < 0" class="col-change">
+              {{ asset.change24h > 0 ? '+' : '' }}{{ asset.change24h.toFixed(2) }}%
             </td>
-            <td class="marketcap-cell">{{ asset.marketCap }}</td>
-            <td class="volume-cell">{{ asset.volume }}</td>
-            <td class="trend-cell">
-              <div class="trend-sparkline">
+            <td class="col-marketcap">{{ asset.marketCap }}</td>
+            <td class="col-volume">{{ asset.volume }}</td>
+            <td class="col-trend">
+              <div class="trend-chart">
                 <p-chart
                   *ngIf="asset.sparklineData"
                   type="line"
                   [data]="asset.sparklineData"
                   [options]="sparklineOptions"
-                  class="sparkline-chart"
+                  class="sparkline"
                 ></p-chart>
-                <div *ngIf="!asset.sparklineData" class="trend-fallback">
+                <div *ngIf="!asset.sparklineData" class="trend-icon">
                   <i
                     [class]="
                       asset.trend === 'up'
@@ -173,54 +163,46 @@
             </td>
           </tr>
         </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="empty-message">No assets found</td>
+          </tr>
+        </ng-template>
       </p-table>
     </div>
+  </div>
+
+  <!-- Bottom Cards -->
+  <div class="bottom-cards">
+    <div class="card analytics-card">
+      <div class="card-header">
+        <h3 class="card-title">Portfolio Analytics</h3>
+      </div>
+      <p class="card-description">
+        Deep dive into your asset allocation. Understand your risk exposure and diversify wisely.
+      </p>
+      <a href="#" class="card-link">
+        View Full Report
+        <i class="pi pi-arrow-right"></i>
+      </a>
     </div>
 
-    <!-- Bottom Section -->
-    <div class="bottom-section row g-4 mt-5 mb-5">
-      <!-- Portfolio Analytics -->
-      <div class="col-lg-6">
-        <p-card class="analytics-card">
-          <ng-template pTemplate="header">
-            <div class="card-header">
-              <h3 class="card-title">Portfolio Analytics</h3>
-            </div>
-          </ng-template>
-          <div class="analytics-content">
-            <p class="analytics-description">
-              Deep dive into your asset allocation. Understand your risk exposure and diversify wisely.
-            </p>
-            <a href="#" class="view-report-link">
-              View Full Report
-              <i class="pi pi-arrow-right"></i>
-            </a>
-          </div>
-        </p-card>
+    <div class="card invite-card">
+      <div class="card-header">
+        <h3 class="card-title">Invite Friends</h3>
       </div>
-
-      <!-- Invite Friends -->
-      <div class="col-lg-6">
-        <p-card class="invite-card">
-          <ng-template pTemplate="header">
-            <div class="card-header">
-              <h3 class="card-title">Invite Friends</h3>
-            </div>
-          </ng-template>
-          <div class="invite-content">
-            <p class="invite-description">
-              Earn 5% commission on every trade your referral makes. Join our affiliate program.
-            </p>
-            <button
-              pButton
-              type="button"
-              label="Copy Invite Link"
-              (click)="onCopyInvite()"
-              class="invite-btn"
-            ></button>
-          </div>
-        </p-card>
-      </div>
+      <p class="card-description">
+        Earn 5% commission on every trade your referral makes. Join our affiliate program.
+      </p>
+      <button
+        pButton
+        type="button"
+        label="Copy Invite Link"
+        (click)="onCopyInvite()"
+        class="p-button-sm invite-btn"
+      ></button>
     </div>
   </div>
+</div>
 

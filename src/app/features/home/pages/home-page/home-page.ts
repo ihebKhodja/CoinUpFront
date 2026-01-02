@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -96,7 +97,7 @@ export class HomeComponent implements OnInit {
 
   assets: CryptoAsset[] = [];
 
-  constructor(private readonly coinsListService: CoinsListService) {}
+  constructor(private readonly coinsListService: CoinsListService, private readonly router: Router) {}
 
   ngOnInit() {
     this.search$
@@ -269,6 +270,12 @@ export class HomeComponent implements OnInit {
     if (abs >= 1e6) return `$${(value / 1e6).toFixed(2)}M`;
     if (abs >= 1e3) return `$${(value / 1e3).toFixed(2)}K`;
     return `$${Number(value).toLocaleString()}`;
+  }
+
+  onRowClick(asset: CryptoAsset) {
+    if (asset.id) {
+      this.router.navigate(['/coin', asset.id]);
+    }
   }
 
   onTrade(asset: CryptoAsset) {

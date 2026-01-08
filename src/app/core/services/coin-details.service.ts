@@ -5,6 +5,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { selectToken } from '../state/auth/auth.selectors';
+import { buildApiUrl } from '../config/backend.config';
 
 export interface CoinDetail {
   id: string;
@@ -46,7 +47,7 @@ export interface MarketChart {
   providedIn: 'root',
 })
 export class CoinDetailsService {
-  private baseUrl = 'http://localhost:5269/api/Coins';
+  private baseUrl = buildApiUrl('Coins');
 
   constructor(private http: HttpClient, private store: Store) {}
 

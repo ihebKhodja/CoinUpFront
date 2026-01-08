@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../state/auth/auth.selectors';
 import { switchMap, take } from 'rxjs/operators';
+import { buildApiUrl } from '../config/backend.config';
 
 export interface WalletHolding {
   coinId: string;
@@ -58,7 +59,7 @@ export interface WalletDepositResponse {
   providedIn: 'root'
 })
 export class WalletService {
-  private readonly baseUrl = 'http://localhost:5269/api/wallet';
+  private readonly baseUrl = buildApiUrl('wallet');
 
   constructor(
     private readonly http: HttpClient,

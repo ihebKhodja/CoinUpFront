@@ -15,6 +15,7 @@ import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { selectIsAuthenticated } from '../state/auth/auth.selectors';
 import * as AuthActions from '../state/auth/auth.actions';
+import { isAdminToken } from '../utils/jwt.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -94,6 +95,41 @@ export class PublicGuard implements CanActivate {
           return this.router.createUrlTree(['/home']);
         }
         return true;
+      })
+    );
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminGuard implements CanActivate, CanLoad {
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    return this.isAdmin().pipe(
+      map((ok) => (ok ? true : this.router.createUrlTree(['/home'])))
+    );
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> {
+    return this.isAdmin().pipe(
+      map((ok) => (ok ? true : this.router.createUrlTree(['/home'])))
+    );
+  }
+
+  private isAdmin(): Observable<boolean> {
+    return this.store.select(selectIsAuthenticated).pipe(
+      take(1),
+      map(() => {
+        const token = localStorage.getItem('auth_token');
+        return isAdminToken(token);
       })
     );
   }

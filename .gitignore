@@ -38,6 +38,9 @@ testem.log
 /typings
 __screenshots__/
 
+# Runtime env (generated from .env)
+/public/env.js
+
 # System files
 .DS_Store
 Thumbs.db

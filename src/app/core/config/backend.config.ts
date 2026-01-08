@@ -3,20 +3,19 @@
  * Uses environment variables from .env file
  */
 
-declare const process:
-  | {
-      env?: Record<string, string | undefined>;
-    }
-  | undefined;
+declare global {
+  interface Window {
+    __env?: Record<string, string | undefined>;
+  }
+}
 
 // Helper function to get environment variables (with fallback defaults)
 function getEnv(key: string, defaultValue: string): string {
-  // In Angular, environment variables are typically accessed through environment.ts
-  // For .env file support, you can use ngx-dotenv or similar packages
-  // This is a simple implementation that reads from process.env in dev mode
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key] || defaultValue;
+  // Runtime config injected via public/env.js (generated from .env)
+  if (typeof window !== 'undefined' && window.__env && window.__env[key]) {
+    return window.__env[key] as string;
   }
+
   return defaultValue;
 }
 

@@ -7,7 +7,8 @@ import { WatchlistManagementComponent } from './features/watchlist/watchlist-man
 import { WalletComponent } from './features/wallet/wallet.component';
 import { DepositFundsComponent } from './features/wallet/deposit-funds/deposit-funds.component';
 import { MainLayoutComponent } from './core/layouts/main-layout';
-import { AuthGuard, PublicGuard } from './core/guards/auth.guards';
+import { AuthGuard, PublicGuard, AdminGuard } from './core/guards/auth.guards';
+import { AdminUsersListComponent } from './features/admin/users-list/users-list.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,11 @@ export const routes: Routes = [
         {
         path: 'home',
         component: HomeComponent
+        },
+        {
+        path: 'admin/users',
+        component: AdminUsersListComponent,
+        canActivate: [AdminGuard]
         },
         {
         path: 'wallet',

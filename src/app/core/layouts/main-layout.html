@@ -16,7 +16,7 @@
 
       <nav class="sidebar-nav">
         <ul class="nav-menu">
-          <li *ngFor="let item of menuItems">
+          <li *ngFor="let item of (menuItems$ | async)">
             <a [routerLink]="item.route" routerLinkActive="active" class="nav-link">
               <i [class]="item.icon"></i>
               <span class="nav-label">{{ item.label }}</span>

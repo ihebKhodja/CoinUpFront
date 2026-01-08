@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../state/auth/auth.selectors';
 import { take, switchMap } from 'rxjs/operators';
+import { buildApiUrl } from '../config/backend.config';
 
 export interface Alert {
   id: string;
@@ -47,7 +48,7 @@ export interface UpdateAlertDTO {
   providedIn: 'root'
 })
 export class AlertsService {
-  private baseUrl = 'http://localhost:5269/api/Alerts';
+  private baseUrl = buildApiUrl('Alerts');
 
   constructor(
     private http: HttpClient,

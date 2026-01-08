@@ -16,24 +16,33 @@ export class MainLayoutComponent implements OnInit {
   isSidebarOpen = true;
   userName$: Observable<string>;
   userInitial$: Observable<string>;
-
-  menuItems = [
-    { icon: 'pi pi-home', label: 'Dashboard', route: '/home' },
-    { icon: 'pi pi-wallet', label: 'Wallet', route: '/wallet' },
-    { icon: 'pi pi-star', label: 'Watchlist', route: '/watchlist' },
-    // { icon: 'pi pi-arrow-right-arrow-left', label: 'Exchange', route: '/exchange' },
-    // { icon: 'pi pi-chart-line', label: 'Activity', route: '/activity' }
-  ];
+  menuItems$: Observable<Array<{ icon: string; label: string; route: string }>>;
 
   constructor(private authService: AuthService, private router: Router) {
     this.userName$ = this.authService.user$.pipe(
-      map(user => user?.username || 'User')
+      map((user: any) => (String(user ?? '') || 'User'))
     );
     
     this.userInitial$ = this.authService.user$.pipe(
-      map(user => {
-        const name = user?.username || 'User';
+      map((user: any) => {
+        const name = String(user ?? '') || 'User';
         return name.charAt(0).toUpperCase();
+      })
+    );
+
+    this.menuItems$ = this.authService.isAdmin$.pipe(
+      map((isAdmin) => {
+        const items = [
+          { icon: 'pi pi-home', label: 'Dashboard', route: '/home' },
+          { icon: 'pi pi-wallet', label: 'Wallet', route: '/wallet' },
+          { icon: 'pi pi-star', label: 'Watchlist', route: '/watchlist' },
+        ];
+
+        if (isAdmin) {
+          items.splice(1, 0, { icon: 'pi pi-users', label: 'Users', route: '/admin/users' });
+        }
+
+        return items;
       })
     );
   }

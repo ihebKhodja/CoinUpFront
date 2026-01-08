@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node scripts/generate-env.mjs",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "prebuild": "node scripts/generate-env.mjs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "pretest": "node scripts/generate-env.mjs",
     "test": "ng test"
   },
   "prettier": {
@@ -40,6 +43,7 @@
     "primeicons": "^7.0.0",
     "primeng": "^20.4.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.17",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

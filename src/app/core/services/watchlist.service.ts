@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../state/auth/auth.selectors';
-import { take, switchMap } from 'rxjs/operators';
+import { map, take, switchMap } from 'rxjs/operators';
+import { buildApiUrl } from '../config/backend.config';
 
 export interface WatchlistItem {
   id: string;
@@ -19,7 +20,7 @@ export interface WatchlistItem {
   providedIn: 'root'
 })
 export class WatchlistService {
-  private baseUrl = 'http://localhost:5269/api/watchlist';
+  private baseUrl = buildApiUrl('watchlist');
 
   constructor(
     private http: HttpClient,
@@ -41,25 +42,6 @@ export class WatchlistService {
             .set('auth_token', effectiveToken);
         }
         return this.http.get<WatchlistItem[]>(this.baseUrl, { headers });
-      })
-    );
-  }
-
-  /**
-   * Get a specific watchlist item by coin ID
-   */
-  getWatchlistItem(coinId: string): Observable<WatchlistItem> {
-    return this.store.select(selectToken).pipe(
-      take(1),
-      switchMap((token) => {
-        const effectiveToken = token || localStorage.getItem('auth_token');
-        let headers = new HttpHeaders();
-        if (effectiveToken) {
-          headers = headers
-            .set('Authorization', `Bearer ${effectiveToken}`)
-            .set('auth_token', effectiveToken);
-        }
-        return this.http.get<WatchlistItem>(`${this.baseUrl}/${coinId}`, { headers });
       })
     );
   }
@@ -106,19 +88,8 @@ export class WatchlistService {
    * Check if a coin is in the watchlist
    */
   isInWatchlist(coinId: string): Observable<boolean> {
-    return this.getWatchlistItem(coinId).pipe(
-      switchMap(() => {
-        return new Observable<boolean>(observer => {
-          observer.next(true);
-          observer.complete();
-        });
-      }),
-      switchMap(
-        () => new Observable<boolean>(observer => {
-          observer.next(true);
-          observer.complete();
-        })
-      )
+    return this.getWatchlist().pipe(
+      map((items) => items.some((item) => item.coinId === coinId))
     );
   }
 }

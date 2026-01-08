@@ -48,11 +48,11 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
   }
 
   checkIfInWatchlist(): void {
-    this.watchlistService.getWatchlistItem(this.coinId)
+    this.watchlistService.isInWatchlist(this.coinId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
-          this.isInWatchlist = true;
+        next: (isInWatchlist) => {
+          this.isInWatchlist = isInWatchlist;
         },
         error: () => {
           this.isInWatchlist = false;

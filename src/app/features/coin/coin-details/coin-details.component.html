@@ -68,22 +68,6 @@
         <div class="chart-card">
           <div class="chart-header">
             <h3>Price Chart</h3>
-            <div class="chart-tabs">
-              <button
-                (click)="selectChart('1d')"
-                [class.active]="selectedChart === '1d'"
-                class="chart-tab"
-              >
-                1D
-              </button>
-              <button
-                (click)="selectChart('7d')"
-                [class.active]="selectedChart === '7d'"
-                class="chart-tab"
-              >
-                7D
-              </button>
-            </div>
           </div>
           <div class="chart-container" *ngIf="chartData">
             <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
@@ -141,8 +125,8 @@
             <i class="pi pi-wallet"></i>
           </div>
           <p class="balance-label">Your Balance</p>
-          <h2 class="balance-amount">0.4521 {{ coinDetail.symbol | uppercase }}</h2>
-          <p class="balance-usd">≈ $19,166.32 USD</p>
+          <h2 class="balance-amount">{{ (coinHolding?.quantity || 0).toFixed(4) }} {{ coinDetail.symbol | uppercase }}</h2>
+          <p class="balance-usd">≈ ${{ (coinHolding?.currentValue || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }} USD</p>
           <div class="balance-divider"></div>
           <div class="balance-actions">
             <button class="btn btn-primary">

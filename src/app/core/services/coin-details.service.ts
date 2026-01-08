@@ -75,7 +75,7 @@ export class CoinDetailsService {
     );
   }
 
-  getMarketChart(coinId: string, days: number): Observable<MarketChart> {
+  getMarketChart(coinId: string): Observable<MarketChart> {
     return this.store.select(selectToken).pipe(
       take(1),
       switchMap((token) => {
@@ -88,16 +88,11 @@ export class CoinDetailsService {
         }
 
         return this.http
-          .get<MarketChart>(
-            `${this.baseUrl}/${coinId}/market-chart?days=${days}`,
-            { headers }
-          )
+          .get<MarketChart>(`${this.baseUrl}/${coinId}/market-chart`, { headers })
           .pipe(
             catchError((error) => {
-              console.error(`Error fetching market chart for ${days}d:`, error);
-              return throwError(
-                () => new Error(`Failed to fetch market chart for ${days} days`)
-              );
+              console.error('Error fetching market chart:', error);
+              return throwError(() => new Error('Failed to fetch market chart'));
             })
           );
       })

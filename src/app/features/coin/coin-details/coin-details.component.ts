@@ -7,6 +7,7 @@ import { ChartModule } from 'primeng/chart';
 import { Subject, takeUntil } from 'rxjs';
 import { CoinDetailsService, CoinDetail, MarketChart } from '../../../core/services/coin-details.service';
 import { WatchlistService } from '../../../core/services/watchlist.service';
+import { WalletService, WalletHolding } from '../../../core/services/wallet.service';
 
 @Component({
   selector: 'app-coin-details',
@@ -18,15 +19,14 @@ import { WatchlistService } from '../../../core/services/watchlist.service';
 export class CoinDetailsComponent implements OnInit, OnDestroy {
   coinId: string = '';
   coinDetail: CoinDetail | null = null;
-  marketChart1d: MarketChart | null = null;
-  marketChart7d: MarketChart | null = null;
+  marketChart90d: MarketChart | null = null;
   loading = true;
   error: string | null = null;
-  selectedChart: '1d' | '7d' = '1d';
   chartData: any = null;
   chartOptions: any = null;
   isInWatchlist = false;
   watchlistLoading = false;
+  coinHolding: WalletHolding | null = null;
 
   private destroy$ = new Subject<void>();
 
@@ -34,7 +34,8 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private coinDetailsService: CoinDetailsService,
-    private watchlistService: WatchlistService
+    private watchlistService: WatchlistService,
+    private walletService: WalletService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +45,7 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
         this.coinId = params['id'];
         this.loadCoinDetails();
         this.checkIfInWatchlist();
+        this.loadWalletHolding();
       });
   }
 
@@ -56,6 +58,20 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isInWatchlist = false;
+        }
+      });
+  }
+
+  loadWalletHolding(): void {
+    this.walletService.getWallet()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (wallet) => {
+          this.coinHolding = wallet.holdings.find(h => h.coinId.toLowerCase() === this.coinId.toLowerCase()) || null;
+        },
+        error: (err) => {
+          console.error('Failed to load wallet holding:', err);
+          this.coinHolding = null;
         }
       });
   }
@@ -113,49 +129,25 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
   }
 
   loadMarketCharts(): void {
-    // Load 1 day chart
+    // Load fixed 90 days chart (backend default)
     this.coinDetailsService
-      .getMarketChart(this.coinId, 1)
+      .getMarketChart(this.coinId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (chart) => {
-          this.marketChart1d = chart;
-          if (this.selectedChart === '1d') {
-            this.updateChart();
-          }
-        },
-        error: (err) => {
-          console.error('Error loading 1d chart:', err);
-        },
-      });
-
-    // Load 7 days chart
-    this.coinDetailsService
-      .getMarketChart(this.coinId, 7)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (chart) => {
-          this.marketChart7d = chart;
-          if (this.selectedChart === '7d') {
-            this.updateChart();
-          }
+          this.marketChart90d = chart;
+          this.updateChart();
           this.loading = false;
         },
         error: (err) => {
-          console.error('Error loading 7d chart:', err);
+          console.error('Error loading market chart:', err);
           this.loading = false;
         },
       });
-  }
-
-  selectChart(period: '1d' | '7d'): void {
-    this.selectedChart = period;
-    this.updateChart();
   }
 
   updateChart(): void {
-    const chart =
-      this.selectedChart === '1d' ? this.marketChart1d : this.marketChart7d;
+    const chart = this.marketChart90d;
 
     if (!chart || !chart.prices || chart.prices.length === 0) {
       this.chartData = null;
@@ -165,9 +157,7 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
     const prices = chart.prices.map((p) => p[1]);
     const labels = chart.prices.map((p) => {
       const date = new Date(p[0]);
-      return this.selectedChart === '1d'
-        ? date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
-        : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     });
 
     this.chartData = {
@@ -190,7 +180,7 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
     if (!this.chartOptions) {
       this.chartOptions = {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false,
@@ -198,6 +188,17 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
           filler: {
             propagate: true,
           },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          },
+        },
+        layout: {
+          padding: 0,
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false,
         },
         scales: {
           x: {
@@ -211,6 +212,10 @@ export class CoinDetailsComponent implements OnInit, OnDestroy {
               font: {
                 size: 10,
               },
+              autoSkip: true,
+              maxTicksLimit: 8,
+              maxRotation: 0,
+              minRotation: 0,
             },
           },
           y: {

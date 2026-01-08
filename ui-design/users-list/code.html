@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coin Up - Admin User Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for table if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #283039;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white h-screen flex overflow-hidden font-display">
+<!-- Sidebar -->
+<aside class="w-64 bg-[#111418] flex-shrink-0 flex flex-col justify-between border-r border-[#283039] hidden md:flex">
+<div class="flex flex-col gap-4 p-4">
+<div class="flex items-center gap-3 px-2 mb-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 bg-gradient-to-tr from-blue-500 to-cyan-400" data-alt="Coin Up Abstract Logo"></div>
+<h1 class="text-white text-lg font-bold leading-normal tracking-tight">Coin Up Admin</h1>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#283039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#9dabb9] group-hover:text-white">dashboard</span>
+<p class="text-[#9dabb9] group-hover:text-white text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#283039]" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">group</span>
+<p class="text-white text-sm font-medium leading-normal">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#283039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#9dabb9] group-hover:text-white">account_balance_wallet</span>
+<p class="text-[#9dabb9] group-hover:text-white text-sm font-medium leading-normal">Wallets</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#283039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#9dabb9] group-hover:text-white">settings</span>
+<p class="text-[#9dabb9] group-hover:text-white text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="p-4 border-t border-[#283039]">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#283039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#9dabb9] group-hover:text-red-400">logout</span>
+<p class="text-[#9dabb9] group-hover:text-red-400 text-sm font-medium leading-normal">Log Out</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Mobile Header (Visible only on small screens) -->
+<header class="md:hidden h-16 bg-[#111418] border-b border-[#283039] flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 bg-gradient-to-tr from-blue-500 to-cyan-400" data-alt="Coin Up Logo Small"></div>
+<span class="text-white font-bold">Coin Up</span>
+</div>
+<button class="text-white p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 lg:p-10">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap gap-2 items-center">
+<a class="text-[#9dabb9] hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[#9dabb9] text-base">chevron_right</span>
+<span class="text-white text-sm font-medium leading-normal">Users</span>
+</nav>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">User Management</h1>
+<p class="text-[#64748b] dark:text-[#9dabb9] text-base font-normal">Manage user access, roles, and account status</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[#283039] hover:bg-[#343e49] text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span class="hidden sm:inline">Export CSV</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-lg shadow-blue-500/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add New User</span>
+</button>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="bg-white dark:bg-[#151c24] rounded-xl p-4 border border-gray-200 dark:border-[#283039] flex flex-col md:flex-row gap-4 justify-between items-center shadow-sm">
+<!-- Search -->
+<label class="flex w-full md:max-w-md h-10 items-center gap-2 rounded-lg bg-gray-50 dark:bg-[#283039] px-3 focus-within:ring-2 focus-within:ring-primary/50 transition-all border border-gray-200 dark:border-transparent">
+<span class="material-symbols-outlined text-[#9dabb9]">search</span>
+<input class="w-full bg-transparent text-slate-900 dark:text-white placeholder:text-[#9dabb9] text-sm focus:outline-none" placeholder="Search by username or email"/>
+</label>
+<!-- Filter Chips -->
+<div class="flex gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+<button class="flex h-9 shrink-0 items-center gap-2 rounded-lg border border-gray-200 dark:border-[#283039] bg-white dark:bg-[#1a222a] px-3 hover:bg-gray-50 dark:hover:bg-[#283039] transition-colors">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Role: All</span>
+<span class="material-symbols-outlined text-[#9dabb9] text-[20px]">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center gap-2 rounded-lg border border-gray-200 dark:border-[#283039] bg-white dark:bg-[#1a222a] px-3 hover:bg-gray-50 dark:hover:bg-[#283039] transition-colors">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Status: All</span>
+<span class="material-symbols-outlined text-[#9dabb9] text-[20px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white dark:bg-[#151c24] rounded-xl border border-gray-200 dark:border-[#283039] shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-[#1a222a] border-b border-gray-200 dark:border-[#283039]">
+<th class="py-4 pl-6 pr-3 w-12">
+<div class="flex items-center">
+<input class="size-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" type="checkbox"/>
+</div>
+</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9] cursor-pointer group hover:text-primary">
+<div class="flex items-center gap-1">
+                                            User
+                                            <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">unfold_more</span>
+</div>
+</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9]">Email</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9]">Role</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9]">Status</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9] cursor-pointer group hover:text-primary">
+<div class="flex items-center gap-1">
+                                            Joined
+                                            <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">unfold_more</span>
+</div>
+</th>
+<th class="py-4 px-3 text-xs font-semibold uppercase tracking-wider text-[#64748b] dark:text-[#9dabb9] text-right pr-6">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-[#283039]">
+<!-- Row 1 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#1c252b] transition-colors">
+<td class="py-4 pl-6 pr-3">
+<input class="size-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" type="checkbox"/>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Avatar of user crypto_king" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC80SfONX2f1IbG0LQO7gOmhNFwSRR-dqVbjh9pdt-sjezrWWYXTm0QEKfwOU-B4t8lX2W-bMZY8TMYz8aYUeK-VcAO_7UtaEhPrYtH9bgntTET-kciLy-vgCMhkG5prnUDGVv3u01EZ9JKoIgqWnxy_WogLEqhMeHQconFivGKA1NR1PWdyDwdglQePqAEky_JGAuuAF-ICJ6y47_5gYcpI33otHAIixt2Y3obVClhkz6RSBtgZAmRMw0_5uKysY3WcRTBm9VK--A");'></div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-medium text-sm">crypto_king</span>
+<span class="text-[#64748b] dark:text-[#9dabb9] text-xs md:hidden">alex@example.com</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-3 hidden md:table-cell">
+<a class="text-primary hover:underline text-sm font-medium" href="mailto:alex@example.com">alex@example.com</a>
+</td>
+<td class="py-4 px-3">
+<span class="inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30">Admin</span>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</span>
+<span class="text-slate-700 dark:text-white text-sm">Active</span>
+</div>
+</td>
+<td class="py-4 px-3">
+<span class="text-[#64748b] dark:text-[#9dabb9] text-sm">Oct 12, 2023</span>
+</td>
+<td class="py-4 px-3 text-right pr-6">
+<button class="text-[#9dabb9] hover:text-white p-1 rounded hover:bg-[#283039]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#1c252b] transition-colors">
+<td class="py-4 pl-6 pr-3">
+<input class="size-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" type="checkbox"/>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Avatar of user investor_jane" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7qnDVTzoMAo3bSuL5OmPTBekUERBt6hCs0dKiRKk2wGmvW7sXHtz4o9DMyyFK8RSkOy2k2iebwyHrIojsKmX37Ej2fhXSXwXcLciR5O9fRWHne3CZV79JTMEYgX7OOF24UcCaXUgCn_vNIDbvl6hKhtEADdfdukEjVULLFjD93rblCkY14n6l937Jo7OYyVCiLPrir_GsNcgAaiVBxVJqY9Z3Vg7m3gYLJDxISVFh38yh5rH0k3g9JjIf9tKOWn0UNBsYEgC7JYk");'></div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-medium text-sm">investor_jane</span>
+<span class="text-[#64748b] dark:text-[#9dabb9] text-xs md:hidden">jane@example.com</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-3 hidden md:table-cell">
+<a class="text-primary hover:underline text-sm font-medium" href="mailto:jane@example.com">jane@example.com</a>
+</td>
+<td class="py-4 px-3">
+<span class="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">User</span>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-2">
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+<span class="text-slate-700 dark:text-white text-sm">Active</span>
+</div>
+</td>
+<td class="py-4 px-3">
+<span class="text-[#64748b] dark:text-[#9dabb9] text-sm">Sep 05, 2023</span>
+</td>
+<td class="py-4 px-3 text-right pr-6">
+<button class="text-[#9dabb9] hover:text-white p-1 rounded hover:bg-[#283039]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#1c252b] transition-colors bg-red-500/5 dark:bg-red-500/5">
+<td class="py-4 pl-6 pr-3">
+<input class="size-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" type="checkbox"/>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Avatar of user ledger_fan" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB26Q_7DcfeKL85sVKecsvcxdl0EpopgcR4zOO3OHY6GTzofVDEVTGSsFRyDvNvygydflP7FVmJZDK2NfnKqWAwX8HjVLEYF_jBWEo4jp0bNlyk0K0Z1iLh7eeMoSh5Z89YcUyMROHP6FG1TS8IRy-q3Np_VvupCRnSSTufUtRUSWTtMCRcHlxhb-9jHIe2_0BrCMG5ljNWMO5QIBKaWJY6hqqwif8W29qaauprZc1siXEn0ill1JqEAk1TDrVAKLJ_lJYm_f4Xj-o");'></div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-medium text-sm">ledger_fan</span>
+<span class="text-[#64748b] dark:text-[#9dabb9] text-xs md:hidden">mark@example.com</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-3 hidden md:table-cell">
+<a class="text-primary hover:underline text-sm font-medium" href="mailto:mark@example.com">mark@example.com</a>
+</td>
+<td class="py-4 px-3">
+<span class="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">User</span>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-2">
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+<span class="text-slate-700 dark:text-white text-sm">Suspended</span>
+</div>
+</td>
+<td class="py-4 px-3">
+<span class="text-[#64748b] dark:text-[#9dabb9] text-sm">Jan 15, 2024</span>
+</td>
+<td class="py-4 px-3 text-right pr-6">
+<button class="text-[#9dabb9] hover:text-white p-1 rounded hover:bg-[#283039]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#1c252b] transition-colors">
+<td class="py-4 pl-6 pr-3">
+<input class="size-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" type="checkbox"/>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Avatar of user block_chainz" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAA7ASkW82qRXcbxFsL8PplXk9_wwneKmcyaCM-YEiaItDY8cqXQvgfBdOM5GTiGkMJg9xTmY2zjBQRGJjwJj4b2ObKYfRsECXvyv2l_WMbTVNSe64e0A44tZjOpAjqzQkWhc1Tg4GDewAeERvI1zxYlqbpUKdLNqzYGzuzK72jRvdgml88utVPc0PmkUx8sOMqbcjDWtItyLkGGqrUbi-oy2KznUCY3OfKUQbFCrcZl05FOjMdAc8bUS4AO2GDSLoe6C7oSLSNgjk");'></div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-medium text-sm">block_chainz</span>
+<span class="text-[#64748b] dark:text-[#9dabb9] text-xs md:hidden">chainz@example.com</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-3 hidden md:table-cell">
+<a class="text-primary hover:underline text-sm font-medium" href="mailto:chainz@example.com">chainz@example.com</a>
+</td>
+<td class="py-4 px-3">
+<span class="inline-flex items-center rounded-md bg-purple-400/10 px-2 py-1 text-xs font-medium text-purple-400 ring-1 ring-inset ring-purple-400/20">Moderator</span>
+</td>
+<td class="py-4 px-3">
+<div class="flex items-center gap-2">
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+<span class="text-slate-700 dark:text-white text-sm">Active</span>
+</div>
+</td>
+<td class="py-4 px-3">
+<span class="text-[#64748b] dark:text-[#9dabb9] text-sm">Feb 20, 2024</span>
+</td>
+<td class="py-4 px-3 text-right pr-6">
+<button class="text-[#9dabb9] hover:text-white p-1 rounded hover:bg-[#283039]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-gray-50 dark:bg-[#1a222a] px-6 py-4 border-t border-gray-200 dark:border-[#283039] flex items-center justify-between">
+<p class="text-sm text-[#64748b] dark:text-[#9dabb9]">
+                            Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">4</span> of <span class="font-medium text-slate-900 dark:text-white">128</span> users
+                        </p>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-lg border border-gray-200 dark:border-[#283039] bg-white dark:bg-[#151c24] text-sm font-medium text-[#9dabb9] hover:text-white hover:border-primary disabled:opacity-50 transition-colors">Previous</button>
+<button class="px-3 py-1 rounded-lg border border-gray-200 dark:border-[#283039] bg-white dark:bg-[#151c24] text-sm font-medium text-slate-900 dark:text-white hover:border-primary transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

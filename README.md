@@ -57,3 +57,40 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## CI/CD
+
+### GitHub Actions
+
+A workflow is provided at `.github/workflows/ci.yml`:
+
+- Installs dependencies with `npm ci`
+- Runs unit tests in headless Chrome with coverage
+- Builds the production bundle
+- Validates the Docker image build
+
+### Docker (production)
+
+Build the image:
+
+```bash
+docker build -f dockerfile -t coinupfront:local .
+```
+
+Run it (serves on port 8080):
+
+```bash
+docker run --rm -p 8080:80 -e BACKEND_URL=http://localhost:5000/api coinupfront:local
+```
+
+The frontend reads `BACKEND_URL` via `/env.js` (generated at container startup).
+
+### Kubernetes
+
+Manifests are in `k8s/` (ConfigMap + Deployment + Service + Ingress). Apply them with:
+
+```bash
+kubectl apply -f k8s/
+```
+
+Edit `k8s/configmap.yaml` to point `BACKEND_URL` to your backend service.

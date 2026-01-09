@@ -1,32 +1,29 @@
 # Stage 1: Build the Angular app
 FROM node:20-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the project
 COPY . .
 
-# Build the Angular app in production mode
-RUN npm run build --prod
+# Angular 20+: use configuration flag ("--prod" is deprecated)
+RUN npm run build -- --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
+# SPA routing fallback + cache headers
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Generate env.js at container startup from env vars (BACKEND_URL)
+COPY docker/10-env.sh /docker-entrypoint.d/10-env.sh
+RUN chmod +x /docker-entrypoint.d/10-env.sh
+
 # Copy the built app from Stage 1
-COPY --from=build app/dist/CoinUpFront/browser /usr/share/nginx/html
+COPY --from=build /app/dist/CoinUpFront/browser /usr/share/nginx/html
 
-# Copy custom nginx config if needed (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

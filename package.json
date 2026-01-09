@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "prestart": "node scripts/generate-env.mjs",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "prebuild": "node scripts/generate-env.mjs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "pretest": "node scripts/generate-env.mjs",
     "test": "ng test"
   },
   "prettier": {
@@ -22,16 +25,25 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^20.0.0",
+    "@angular/animations": "^20.3.0",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@ngrx/effects": "^20.0.0",
+    "@ngrx/store": "^20.0.0",
+    "@ngrx/store-devtools": "^20.0.0",
+    "bootstrap": "5.3.x",
+    "chart.js": "^4.5.1",
+    "dotenv": "^17.2.3",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^20.4.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.17",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
@@ -40,12 +52,14 @@
     "@angular/cli": "^20.3.12",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^25.0.3",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "sass": "^1.97.1",
     "typescript": "~5.9.2"
   }
 }

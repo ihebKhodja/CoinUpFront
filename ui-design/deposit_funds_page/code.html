@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deposit Funds - CryptoWallet</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6", // Blue-500
+                        "background-light": "#f8fafc", // Slate-50
+                        "background-dark": "#0f172a", // Slate-900
+                        "surface-dark": "#1e293b", // Slate-800
+                        "border-dark": "#334155", // Slate-700
+                        "text-secondary": "#94a3b8" // Slate-400
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden min-h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark px-4 md:px-10 py-3 sticky top-0 z-50 bg-background-dark">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined !text-3xl">account_balance_wallet</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">CryptoWallet</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Wallet</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Exchange</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Earn</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:brightness-110 transition-all">
+<span class="truncate">Deposit</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-border-dark" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQuvoaVWgXBJd1jk-wambGcYO0yDTDCISlrAHzCGB_mukyljAyTd8sBiOYplivU4e7ttygXkIFi9gPpK6pgl8d8PStWdFXDYmWKX-zT2kQCfc9Yzjqcc22kWHAP8cjNylX4BieC3jwvKxyAj3q6sxPdYGVUC9B287gKUFcQbyklfV8ZkO3jYsmUt91Uru5Gdm-gx4KfeTFhBdPctVq8jUF0zGLn0L_HBuUKkbPLKvky5afrum3JB2QCVTShsfxFaUn44zBwJQzjD0");'></div>
+<button class="group flex items-center gap-2 h-10 px-4 rounded-lg border border-border-dark bg-surface-dark text-white text-sm font-bold hover:border-primary transition-all">
+<span class="material-symbols-outlined text-lg text-text-secondary group-hover:text-primary transition-colors">logout</span>
+<span class="hidden lg:inline group-hover:text-primary transition-colors">Logout</span>
+</button>
+</div>
+</div>
+<div class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</header>
+<main class="layout-container flex grow flex-col w-full max-w-[1280px] mx-auto px-4 md:px-10 py-8 md:py-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Deposit Funds</h1>
+<p class="text-text-secondary text-base font-normal leading-normal">Choose a payment method to add funds to your wallet.</p>
+</div>
+<div class="bg-surface-dark px-4 py-2 rounded-lg border border-border-dark">
+<p class="text-text-secondary text-xs font-medium uppercase tracking-wider">Current Balance</p>
+<p class="text-white text-xl font-bold font-mono">$12,450.00 USD</p>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<div class="flex-1 flex flex-col gap-8">
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold">1</span>
+<h3 class="text-white text-lg font-bold">Select Payment Method</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<label class="group relative cursor-pointer">
+<input checked="" class="peer invisible absolute" name="payment-method" type="radio"/>
+<div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-border-dark bg-surface-dark p-6 hover:bg-[#334155] transition-colors peer-checked:border-primary peer-checked:bg-surface-dark peer-checked:ring-1 peer-checked:ring-primary h-full">
+<span class="material-symbols-outlined text-4xl text-text-secondary peer-checked:text-primary group-hover:text-white">account_balance</span>
+<div class="text-center">
+<p class="text-white font-bold text-sm">Bank Transfer</p>
+<p class="text-text-secondary text-xs mt-1">1-3 days • 0% fee</p>
+</div>
+<div class="absolute top-3 right-3 hidden peer-checked:block text-primary">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer invisible absolute" name="payment-method" type="radio"/>
+<div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-border-dark bg-surface-dark p-6 hover:bg-[#334155] transition-colors peer-checked:border-primary peer-checked:bg-surface-dark peer-checked:ring-1 peer-checked:ring-primary h-full">
+<span class="material-symbols-outlined text-4xl text-text-secondary peer-checked:text-primary group-hover:text-white">credit_card</span>
+<div class="text-center">
+<p class="text-white font-bold text-sm">Instant Card</p>
+<p class="text-text-secondary text-xs mt-1">Instant • 2.5% fee</p>
+</div>
+<div class="absolute top-3 right-3 hidden peer-checked:block text-primary">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer invisible absolute" name="payment-method" type="radio"/>
+<div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-border-dark bg-surface-dark p-6 hover:bg-[#334155] transition-colors peer-checked:border-primary peer-checked:bg-surface-dark peer-checked:ring-1 peer-checked:ring-primary h-full">
+<span class="material-symbols-outlined text-4xl text-text-secondary peer-checked:text-primary group-hover:text-white">currency_exchange</span>
+<div class="text-center">
+<p class="text-white font-bold text-sm">Wire Transfer</p>
+<p class="text-text-secondary text-xs mt-1">1-5 days • $15 fee</p>
+</div>
+<div class="absolute top-3 right-3 hidden peer-checked:block text-primary">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+</label>
+</div>
+</section>
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold">2</span>
+<h3 class="text-white text-lg font-bold">Enter Amount</h3>
+</div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-1/3">
+<label class="block text-text-secondary text-sm font-medium mb-2">Currency</label>
+<div class="relative">
+<select class="appearance-none w-full bg-surface-dark border border-border-dark text-white rounded-lg py-3.5 px-4 pr-8 leading-tight focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+<option>USD - US Dollar</option>
+<option>EUR - Euro</option>
+<option>GBP - British Pound</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex-1">
+<label class="block text-text-secondary text-sm font-medium mb-2">Deposit Amount</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center text-text-secondary">$</span>
+<input class="w-full bg-surface-dark border border-border-dark text-white rounded-lg py-3.5 pl-8 pr-20 leading-tight focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-slate-500" placeholder="500.00" type="number" value="500.00"/>
+<button class="absolute inset-y-1 right-1 px-3 bg-[#334155] text-primary hover:text-white rounded-md text-xs font-bold uppercase tracking-wide transition-colors">
+                                Max
+                            </button>
+</div>
+<p class="text-text-secondary text-xs mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">info</span>
+                            Min deposit: $50.00 • Max deposit: $50,000.00
+                        </p>
+</div>
+</div>
+</section>
+<section class="animate-fade-in">
+<div class="flex items-center gap-2 mb-4">
+<span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold">3</span>
+<h3 class="text-white text-lg font-bold">Transfer Details</h3>
+</div>
+<div class="bg-surface-dark rounded-xl border border-border-dark overflow-hidden">
+<div class="bg-[#334155] px-6 py-3 border-b border-border-dark flex justify-between items-center">
+<span class="text-white text-sm font-medium">Use these details for your transfer</span>
+<span class="bg-primary/20 text-primary text-xs px-2 py-1 rounded font-bold uppercase">Reference Required</span>
+</div>
+<div class="p-6 grid gap-6">
+<div class="flex gap-3 bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-lg">
+<span class="material-symbols-outlined text-yellow-500 shrink-0">warning</span>
+<p class="text-yellow-200 text-sm">Please include the <strong class="text-white">Reference Code</strong> below in your bank transfer description. Without it, your deposit may be delayed.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="group">
+<p class="text-text-secondary text-xs uppercase font-bold mb-1">Beneficiary Name</p>
+<div class="flex items-center justify-between bg-background-dark rounded-lg border border-border-dark px-3 py-2.5 group-hover:border-slate-500 transition-colors">
+<span class="text-white font-mono select-all">CryptoWallet Ltd.</span>
+<button class="text-text-secondary hover:text-primary transition-colors" title="Copy">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+</div>
+<div class="group">
+<p class="text-text-secondary text-xs uppercase font-bold mb-1">Bank Name</p>
+<div class="flex items-center justify-between bg-background-dark rounded-lg border border-border-dark px-3 py-2.5 group-hover:border-slate-500 transition-colors">
+<span class="text-white font-mono select-all">Silvergate Bank</span>
+<button class="text-text-secondary hover:text-primary transition-colors" title="Copy">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+</div>
+<div class="group md:col-span-2">
+<p class="text-text-secondary text-xs uppercase font-bold mb-1">IBAN / Account Number</p>
+<div class="flex items-center justify-between bg-background-dark rounded-lg border border-border-dark px-3 py-2.5 group-hover:border-slate-500 transition-colors">
+<span class="text-white font-mono select-all">US88 0000 0000 1234 5678 99</span>
+<button class="text-text-secondary hover:text-primary transition-colors" title="Copy">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+</div>
+<div class="group md:col-span-2">
+<p class="text-primary text-xs uppercase font-bold mb-1">Unique Reference Code (Memo)</p>
+<div class="flex items-center justify-between bg-background-dark rounded-lg border border-primary/50 px-3 py-3 group-hover:border-primary transition-colors ring-1 ring-primary/20">
+<span class="text-primary font-mono font-bold text-lg select-all">CW-8829-XJ92</span>
+<button class="text-primary hover:text-white transition-colors" title="Copy">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="w-full lg:w-[400px] flex flex-col gap-6">
+<div class="bg-surface-dark rounded-xl border border-border-dark p-6 sticky top-24">
+<h3 class="text-white text-xl font-bold mb-6">Summary</h3>
+<div class="space-y-4 mb-6 border-b border-border-dark pb-6">
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Deposit Method</span>
+<span class="text-white font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">account_balance</span>
+                            Bank Transfer
+                        </span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Deposit Amount</span>
+<span class="text-white font-medium">$500.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Transaction Fee</span>
+<span class="text-primary font-medium">Free</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Processing Time</span>
+<span class="text-white font-medium">1-3 Days</span>
+</div>
+</div>
+<div class="flex justify-between items-end mb-8">
+<span class="text-text-secondary font-medium">Total to Credit</span>
+<div class="text-right">
+<span class="text-2xl font-black text-white">$500.00</span>
+<span class="text-xs text-text-secondary block">USD</span>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-400 text-white text-base font-bold h-12 rounded-lg transition-colors shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                    I've Sent the Funds
+                    <span class="material-symbols-outlined text-lg font-bold">arrow_forward</span>
+</button>
+<p class="text-slate-500 text-xs text-center mt-4">
+                    By clicking above, you agree to our <a class="text-text-secondary underline" href="#">Terms of Service</a>.
+                </p>
+<div class="mt-6 pt-6 border-t border-border-dark flex justify-center gap-4 text-slate-500">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">lock</span>
+<span class="text-xs font-medium">SSL Secure</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">verified_user</span>
+<span class="text-xs font-medium">Verified</span>
+</div>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl h-40 bg-cover bg-center flex items-end p-4 border border-border-dark" data-alt="Abstract green digital wireframe mesh background representing blockchain network" style='background-image: linear-gradient(0deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuANTPGUzXFl4r0PzHNf3DnM4MQxeaC89BrVObaXTVb-3Dx37fSlM7Sec5sW79KHUbtdFYhANWosDeOXyP_DeOoGsyT36saLrjN-zSoJx9EemGOXHKW-f0ipmYSc77vrSQKSZ_c0SZK3TooflL-hxirdISJRnvoybAIJlIK4MGW6t0y5lWUABtA8KAiU9Ox1bM3ggkBdG7bmk_3LxFXDS5iROjQBazOsu3bT5nBxuHTF1rVnG99PI_eY4-CS5TozJy6PEFwl1LhAWYQ");'>
+<div>
+<p class="text-white font-bold">New: Instant Buy</p>
+<p class="text-text-secondary text-xs">Buy crypto directly with 0 fees.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-border-dark">
+<h4 class="text-white text-lg font-bold mb-4">Frequently Asked Questions</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<a class="group flex flex-col gap-2 p-4 rounded-lg hover:bg-surface-dark transition-colors border border-transparent hover:border-border-dark" href="#">
+<span class="text-primary font-medium text-sm flex items-center gap-1 group-hover:underline">
+                    Where is my deposit?
+                    <span class="material-symbols-outlined text-base">open_in_new</span>
+</span>
+<p class="text-text-secondary text-xs">Learn about processing times and tracking.</p>
+</a>
+<a class="group flex flex-col gap-2 p-4 rounded-lg hover:bg-surface-dark transition-colors border border-transparent hover:border-border-dark" href="#">
+<span class="text-primary font-medium text-sm flex items-center gap-1 group-hover:underline">
+                    Deposit Limits &amp; Fees
+                    <span class="material-symbols-outlined text-base">open_in_new</span>
+</span>
+<p class="text-text-secondary text-xs">View the complete schedule of limits for your account tier.</p>
+</a>
+<a class="group flex flex-col gap-2 p-4 rounded-lg hover:bg-surface-dark transition-colors border border-transparent hover:border-border-dark" href="#">
+<span class="text-primary font-medium text-sm flex items-center gap-1 group-hover:underline">
+                    Bank Transfer Guide
+                    <span class="material-symbols-outlined text-base">open_in_new</span>
+</span>
+<p class="text-text-secondary text-xs">Step-by-step instructions for wire transfers.</p>
+</a>
+</div>
+</div>
+</main>
+</body></html>

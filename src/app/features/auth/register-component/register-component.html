@@ -1,0 +1,198 @@
+<div class="register-container">
+	<!-- Topbar -->
+	<div class="topbar">
+		<div class="topbar-inner">
+			<a href="#" class="logo-section">
+				<i class="pi pi-star-fill"></i>
+				<span>Coin Up</span>
+			</a>
+			<div class="topbar-actions">
+				<span class="login-hint">Already have an account?</span>
+				<button class="login-btn" routerLink="/login">Log In</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main Content -->
+	<div class="register-main">
+		<div class="register-wrapper">
+			<!-- Left Side - Branding -->
+			<div class="register-left">
+				<div class="floating-blob"></div>
+				<div class="register-content">
+					<h1 class="register-heading">
+						The future of<br/>
+						<span class="accent">secure crypto</span><br/>
+						asset management.
+					</h1>
+					<p class="register-description">
+						Create your wallet in seconds. Join over 2 million users buying, selling, and swapping crypto securely.
+					</p>
+
+					<!-- Features Grid -->
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="icon">
+								<i class="pi pi-shield"></i>
+							</div>
+							<h3 class="title">Bank-grade Security</h3>
+							<p class="text">Your keys, your crypto. Fully encrypted.</p>
+						</div>
+						<div class="feature-card">
+							<div class="icon">
+								<i class="pi pi-bolt"></i>
+							</div>
+							<h3 class="title">Lightning Fast</h3>
+							<p class="text">Instant transactions with zero lag.</p>
+						</div>
+					</div>
+
+					<!-- Image Card -->
+					<div class="image-card">
+						<div class="overlay">
+							<div class="avatars">
+								<div class="avatar">J</div>
+								<div class="avatar">A</div>
+								<div class="avatar">+</div>
+							</div>
+							<div class="stats">
+								<p>+2M Trusted Users</p>
+								<small>Join our growing community</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Side - Form -->
+			<div class="register-right">
+				<div class="form-container">
+					<div class="form-header">
+						<h2>Create an account</h2>
+						<p>Enter your details to get started with your secure wallet.</p>
+					</div>
+
+					<!-- Error Alert -->
+					<div class="error-box" *ngIf="error$ | async as error">
+						<i class="pi pi-exclamation-circle"></i>
+						<span>{{ error }}</span>
+					</div>
+
+					<form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+						<!-- Username Field -->
+						<div class="form-group">
+							<label for="username">Username</label>
+							<div class="input-field">
+								<input type="text" id="username" formControlName="username"
+									placeholder="Choose a username" />
+							</div>
+							<div class="error-message" *ngIf="username?.invalid && username?.touched">
+								Username is required
+							</div>
+						</div>
+
+						<!-- Email Field -->
+						<div class="form-group">
+							<label for="email">Email Address</label>
+							<div class="input-field">
+								<input type="email" id="email" formControlName="email"
+									placeholder="name@example.com" />
+							</div>
+							<div class="error-message" *ngIf="email?.invalid && email?.touched">
+								Please enter a valid email
+							</div>
+						</div>
+
+						<!-- Password Row -->
+						<div class="password-row">
+							<div class="form-group">
+								<label for="password">Password</label>
+								<div class="input-field">
+									<input [type]="showPassword ? 'text' : 'password'" id="password"
+										formControlName="password" placeholder="••••••••" />
+									<button type="button" class="toggle-password" 
+										(click)="togglePasswordVisibility()"
+										[attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+										<i [ngClass]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+									</button>
+								</div>
+								<div class="error-message" *ngIf="password?.invalid && password?.touched">
+									Password must be at least 8 characters
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="confirmPassword">Confirm Password</label>
+								<div class="input-field">
+									<input type="password" id="confirmPassword"
+										formControlName="confirmPassword" placeholder="••••••••" />
+								</div>
+								<div class="error-message" *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched">
+									Passwords do not match
+								</div>
+							</div>
+						</div>
+
+						<!-- Password Strength Indicator -->
+						<div class="strength-indicator">
+							<div class="strength-bars">
+								<div class="bar" [class.filled]="passwordStrengthLevel >= 1" [class.weak]="passwordStrengthLevel === 1"></div>
+								<div class="bar" [class.filled]="passwordStrengthLevel >= 2" [class.medium]="passwordStrengthLevel === 2"></div>
+								<div class="bar" [class.filled]="passwordStrengthLevel >= 3" [class.strong]="passwordStrengthLevel === 3"></div>
+								<div class="bar" [class.filled]="passwordStrengthLevel >= 4" [class.strong]="passwordStrengthLevel === 4"></div>
+							</div>
+							<p class="strength-text">
+								Password strength: 
+								<span class="label" [ngClass]="passwordStrengthLabelClass">
+									{{ passwordStrengthLabel }}
+								</span>
+							</p>
+						</div>
+
+						<!-- Terms Checkbox -->
+						<label class="terms-checkbox">
+							<input type="checkbox" formControlName="agreedToTerms" />
+							<span>I agree to the 
+								<a href="#" class="link">Terms of Service</a> and 
+								<a href="#" class="link">Privacy Policy</a>.
+							</span>
+						</label>
+
+						<!-- Submit Button -->
+						<button type="submit" class="submit-btn"
+							[disabled]="registerForm.invalid || ((loading$ | async) ?? false)">
+							{{ (loading$ | async) ? 'Creating Account...' : 'Create Account' }}
+						</button>
+
+						<!-- Social Divider -->
+						<div class="social-divider">
+							<div class="line"></div>
+							<span>Or continue with</span>
+							<div class="line"></div>
+						</div>
+
+						<!-- Social Buttons -->
+						<div class="social-buttons">
+							<button type="button" title="Sign up with Google">
+								<svg class="google-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-weight="900" fill="#1f2937">G</text>
+								</svg>
+								Google
+							</button>
+							<button type="button" title="Sign up with Apple">
+								<i class="pi pi-apple"></i>
+								Apple
+							</button>
+						</div>
+					</form>
+
+					<!-- Security Footer -->
+					<div class="security-footer">
+						<i class="pi pi-shield"></i>
+						<span>Secured by 256-bit encryption</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,205 @@
+<div class="coin-details-container">
+  <!-- Header -->
+  <header class="details-header">
+    <button (click)="goBack()" class="back-button">
+      <i class="pi pi-arrow-left"></i>
+      <span>Back</span>
+    </button>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading coin details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <i class="pi pi-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button (click)="goBack()" class="error-button">Go Back</button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="coinDetail && !loading && !error" class="details-content">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="#" class="breadcrumb-link">Wallet</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">{{ coinDetail.name }} ({{ coinDetail.symbol | uppercase }})</span>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="details-grid">
+      <!-- Left Column: Coin Info and Chart -->
+      <div class="left-column">
+        <!-- Coin Header -->
+        <div class="coin-header">
+          <div class="coin-info">
+            <div class="coin-icon">
+              <img [src]="coinDetail.image" [alt]="coinDetail.name" />
+            </div>
+            <div class="coin-meta">
+              <h1 class="coin-name">{{ coinDetail.name }}</h1>
+              <span class="coin-symbol">{{ coinDetail.symbol | uppercase }}</span>
+            </div>
+          </div>
+          <button 
+            class="watchlist-btn"
+            [class.active]="isInWatchlist"
+            (click)="toggleWatchlist()"
+            [disabled]="watchlistLoading"
+          >
+            <i class="pi" [class.pi-star-fill]="isInWatchlist" [class.pi-star]="!isInWatchlist"></i>
+            <span>{{ isInWatchlist ? 'Remove' : 'Add to' }} Watchlist</span>
+          </button>
+        </div>
+
+        <!-- Price Display -->
+        <div class="price-section">
+          <div class="current-price">${{ coinDetail.currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</div>
+          <span [class.positive]="coinDetail.priceChangePercentage24h > 0" [class.negative]="coinDetail.priceChangePercentage24h < 0" class="price-change">
+            <i [class]="coinDetail.priceChangePercentage24h > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+            {{ coinDetail.priceChangePercentage24h > 0 ? '+' : '' }}{{ coinDetail.priceChangePercentage24h.toFixed(2) }}%
+          </span>
+        </div>
+
+        <!-- Price Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Price Chart</h3>
+          </div>
+          <div class="chart-container" *ngIf="chartData">
+            <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+          </div>
+          <div *ngIf="!chartData" class="no-chart-data">
+            <p>Chart data not available</p>
+          </div>
+        </div>
+
+        <!-- Market Stats -->
+        <div class="market-stats">
+          <h3>Market Stats</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">
+                <i class="pi pi-chart-bar"></i>
+                <span>Market Cap</span>
+              </div>
+              <p class="stat-value">
+                ${{ coinDetail.marketCap.toLocaleString('en-US', {maximumFractionDigits: 0}) }}
+              </p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <i class="pi pi-arrow-up"></i>
+                <span>High (24h)</span>
+              </div>
+              <p class="stat-value">${{ coinDetail.high24h.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <i class="pi pi-arrow-down"></i>
+                <span>Low (24h)</span>
+              </div>
+              <p class="stat-value">${{ coinDetail.low24h.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">
+                <i class="pi pi-exchange"></i>
+                <span>Change (24h)</span>
+              </div>
+              <p [class.positive]="coinDetail.priceChange24h > 0" [class.negative]="coinDetail.priceChange24h < 0" class="stat-value">
+                {{ coinDetail.priceChange24h > 0 ? '+' : '' }}${{ coinDetail.priceChange24h.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Balance, Activity and Info -->
+      <div class="right-column">
+        <!-- Balance Card -->
+        <div class="balance-card">
+          <div class="balance-icon">
+            <i class="pi pi-wallet"></i>
+          </div>
+          <p class="balance-label">Your Balance</p>
+          <h2 class="balance-amount">{{ (coinHolding?.quantity || 0).toFixed(4) }} {{ coinDetail.symbol | uppercase }}</h2>
+          <p class="balance-usd">≈ ${{ (coinHolding?.currentValue || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }} USD</p>
+          <div class="balance-divider"></div>
+          <div class="balance-actions">
+            <button class="btn btn-primary">
+              <i class="pi pi-plus"></i>
+              <span>Buy {{ coinDetail.name }}</span>
+            </button>
+            <button class="btn btn-secondary">
+              <i class="pi pi-minus"></i>
+              <span>Sell {{ coinDetail.name }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Activity Card -->
+        <div class="activity-card">
+          <div class="activity-header">
+            <h3>Recent Activity</h3>
+            <a href="#" class="view-all-link">View All</a>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon received">
+                <i class="pi pi-arrow-down-left"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">Received {{ coinDetail.symbol | uppercase }}</p>
+                <p class="activity-time">Today, 10:23 AM</p>
+              </div>
+              <div class="activity-amount positive">
+                <p>+0.004 {{ coinDetail.symbol | uppercase }}</p>
+                <p>$169.57</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon sent">
+                <i class="pi pi-arrow-up-right"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">Sent {{ coinDetail.symbol | uppercase }}</p>
+                <p class="activity-time">Yesterday, 4:15 PM</p>
+              </div>
+              <div class="activity-amount negative">
+                <p>-0.012 {{ coinDetail.symbol | uppercase }}</p>
+                <p>$508.72</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon bought">
+                <i class="pi pi-shopping-cart"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">Bought {{ coinDetail.symbol | uppercase }}</p>
+                <p class="activity-time">Oct 24, 09:00 AM</p>
+              </div>
+              <div class="activity-amount">
+                <p>+0.100 {{ coinDetail.symbol | uppercase }}</p>
+                <p>$4,239.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Convert Card -->
+        <div class="quick-convert-card">
+          <div class="convert-header">
+            <i class="pi pi-exchange"></i>
+            <h3>Quick Convert</h3>
+          </div>
+          <p class="convert-description">Swap {{ coinDetail.symbol | uppercase }} to ETH instantly with zero fees.</p>
+          <button class="convert-btn">Swap Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

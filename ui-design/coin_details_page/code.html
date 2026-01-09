@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coin Details - Coin Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6",
+                        "background-light": "#f1f5f9",
+                        "background-dark": "#0f172a",
+                        "card-dark": "#1e293b",
+                        "border-dark": "#334155",
+                        "secondary-text": "#94a3b8"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden min-h-screen flex flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Coin Up</h2>
+</div>
+<nav class="flex items-center gap-9 hidden md:flex">
+<a class="text-secondary-text hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Portfolio</a>
+<a class="text-secondary-text hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Exchange</a>
+<a class="text-secondary-text hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden lg:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-secondary-text flex border-none bg-card-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-card-dark focus:border-none h-full placeholder:text-secondary-text px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search assets" value=""/>
+</div>
+</label>
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-border-dark" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCzBnnhoThqcPweYDb3qsucAjsI3UUPNlmBucAVFvcbPkEz-wT9mEs1ZE1wmpmZ_3wYm1EVhChpTmm1WHbYw1RRvpey57rLWzkoDb-FCkFVtwpsFJ65X1QjKdpYdEwn1Z_4LL7EVTJQ8PzAmAwNyaaFrL8I3sdr82zuNuA_I39FY1Feud-w2xdZ6F49DFJafiNf7fUh6Ed1c-5n1D9FFtAyTukyuZuPVY9ppCAlC-sK9AgrT28YfDMOLaTE7lVVzS9EYh1cJsMFKD4");'></div>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white bg-primary hover:bg-blue-600 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</div>
+</header>
+<main class="layout-container flex h-full grow flex-col px-4 md:px-10 lg:px-40 py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] mx-auto w-full gap-8">
+<div class="flex items-center gap-2">
+<a class="text-secondary-text hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Wallet</a>
+<span class="text-secondary-text text-sm font-medium leading-normal">/</span>
+<span class="text-white text-sm font-medium leading-normal">Bitcoin (BTC)</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+<img alt="Bitcoin logo" class="w-6 h-6" data-alt="Orange Bitcoin B logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdHG-BijTfQU9EPT2ukO08ujHVDEjvbvFtnIOUvytr09tmzZTPhYeolk9gVY6e5IZTcTbYNe7ZPN3U0e6QaBDFNBQ_xKUEKlLi7zvWqVC-zFVYOyWqVltJ4GZVLmVAwDtMWHzuNRDzmSFIVvq-9_3ZludsdWZ7L4EQT624QtnA4-Z663BjRCROJPm4KZGMEttXbY-MllW33XxV86bFrOOi17c8oeI_QC3ghHLmvZS7zTIpM10yPUGyzWRvkQ162CV7GoDn2qTxABI"/>
+</div>
+<h1 class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">Bitcoin <span class="text-secondary-text text-xl font-medium ml-2">BTC</span></h1>
+</div>
+<div class="flex items-baseline gap-3 mt-2">
+<span class="text-white text-4xl font-bold leading-tight tracking-tight">$42,394.00</span>
+<span class="text-[#0bda46] bg-[#0bda46]/10 px-2 py-0.5 rounded text-sm font-bold leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                +2,095.45 (+5.2%)
+                            </span>
+</div>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-card-dark border border-border-dark text-white hover:bg-border-dark transition-colors text-sm font-bold">
+<span class="material-symbols-outlined text-[20px] text-primary">star</span>
+<span>Watchlist</span>
+</button>
+</div>
+<div class="rounded-xl border border-border-dark bg-card-dark overflow-hidden p-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+<p class="text-white text-base font-bold">Price Chart</p>
+<div class="flex bg-background-dark rounded-lg p-1 gap-1 overflow-x-auto max-w-full">
+<button class="px-3 py-1 text-xs font-bold text-white bg-primary rounded shadow-sm">1D</button>
+<button class="px-3 py-1 text-xs font-medium text-secondary-text rounded hover:text-white transition-colors">7D</button>
+</div>
+</div>
+<div class="relative h-[300px] w-full">
+<svg class="w-full h-full text-primary" fill="none" preserveAspectRatio="none" viewBox="0 0 478 150" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="chartGradient" x1="236" x2="236" y1="21" y2="150">
+<stop stop-color="#3b82f6" stop-opacity="0.2"></stop>
+<stop offset="1" stop-color="#3b82f6" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z" fill="url(#chartGradient)"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#3b82f6" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<div class="flex justify-between mt-4 border-t border-border-dark pt-4">
+<p class="text-secondary-text text-xs font-bold uppercase">Jan</p>
+<p class="text-secondary-text text-xs font-bold uppercase">Feb</p>
+<p class="text-secondary-text text-xs font-bold uppercase">Mar</p>
+<p class="text-secondary-text text-xs font-bold uppercase">Apr</p>
+<p class="text-secondary-text text-xs font-bold uppercase">May</p>
+<p class="text-secondary-text text-xs font-bold uppercase">Jun</p>
+<p class="text-secondary-text text-xs font-bold uppercase">Jul</p>
+</div>
+</div>
+<div>
+<h3 class="text-white text-lg font-bold mb-4">Market Stats</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-lg p-4 border border-border-dark bg-card-dark">
+<div class="flex items-center gap-2 text-secondary-text">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+<p class="text-xs font-medium uppercase tracking-wider">Market Cap</p>
+</div>
+<p class="text-white text-xl font-bold">$820.5B</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 border border-border-dark bg-card-dark">
+<div class="flex items-center gap-2 text-secondary-text">
+<span class="material-symbols-outlined text-[18px]">vertical_align_top</span>
+<p class="text-xs font-medium uppercase tracking-wider">High (24h)</p>
+</div>
+<p class="text-white text-xl font-bold">$43,450.00</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 border border-border-dark bg-card-dark">
+<div class="flex items-center gap-2 text-secondary-text">
+<span class="material-symbols-outlined text-[18px]">vertical_align_bottom</span>
+<p class="text-xs font-medium uppercase tracking-wider">Low (24h)</p>
+</div>
+<p class="text-white text-xl font-bold">$41,200.00</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 border border-border-dark bg-card-dark">
+<div class="flex items-center gap-2 text-secondary-text">
+<span class="material-symbols-outlined text-[18px]">currency_exchange</span>
+<p class="text-xs font-medium uppercase tracking-wider">Change (24h)</p>
+</div>
+<p class="text-[#0bda46] text-xl font-bold">+$2,095.45</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="rounded-xl bg-card-dark border border-border-dark p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-primary">account_balance_wallet</span>
+</div>
+<p class="text-secondary-text text-sm font-medium mb-1">Your Balance</p>
+<div class="flex items-baseline gap-2">
+<h2 class="text-3xl font-bold text-white">0.4521 BTC</h2>
+</div>
+<p class="text-secondary-text text-base mb-6">≈ $19,166.32 USD</p>
+<div class="h-px w-full bg-border-dark mb-6"></div>
+<div class="flex flex-col gap-3">
+<button class="w-full h-12 rounded-lg bg-primary hover:bg-[#2563eb] transition-colors text-white text-base font-bold flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+<span class="material-symbols-outlined">add</span>
+                            Buy Bitcoin
+                        </button>
+<button class="w-full h-12 rounded-lg bg-transparent border border-border-dark hover:border-white hover:bg-background-dark/50 transition-colors text-white text-base font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">remove</span>
+                            Sell Bitcoin
+                        </button>
+</div>
+</div>
+<div class="rounded-xl bg-card-dark border border-border-dark flex-1 flex flex-col">
+<div class="p-5 border-b border-border-dark flex justify-between items-center">
+<h3 class="font-bold text-white">Recent Activity</h3>
+<a class="text-primary text-xs font-bold hover:underline" href="#">View All</a>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center justify-between p-4 border-b border-border-dark hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-background-dark border border-border-dark flex items-center justify-center text-[#0bda46]">
+<span class="material-symbols-outlined text-[20px]">south_west</span>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-bold">Received BTC</p>
+<p class="text-secondary-text text-xs">Today, 10:23 AM</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-[#0bda46] text-sm font-bold">+0.004 BTC</p>
+<p class="text-secondary-text text-xs">$169.57</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-border-dark hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-background-dark border border-border-dark flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">north_east</span>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-bold">Sent BTC</p>
+<p class="text-secondary-text text-xs">Yesterday, 4:15 PM</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-white text-sm font-bold">-0.012 BTC</p>
+<p class="text-secondary-text text-xs">$508.72</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-background-dark border border-border-dark flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-bold">Bought BTC</p>
+<p class="text-secondary-text text-xs">Oct 24, 09:00 AM</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-white text-sm font-bold">+0.100 BTC</p>
+<p class="text-secondary-text text-xs">$4,239.00</p>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl bg-primary/10 border border-primary/20 p-5">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary">currency_exchange</span>
+<h3 class="text-primary font-bold text-sm">Quick Convert</h3>
+</div>
+<p class="text-secondary-text text-xs mb-4">Swap BTC to ETH instantly with zero fees.</p>
+<button class="w-full py-2 rounded bg-card-dark text-white text-sm font-bold hover:bg-background-dark transition-colors border border-border-dark">Swap Now</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

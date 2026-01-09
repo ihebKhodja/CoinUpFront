@@ -1,0 +1,55 @@
+<div class="main-layout">
+  <!-- Sidebar -->
+  <aside [class.sidebar]="true" [class.open]="isSidebarOpen" class="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="pi pi-wallet"></i>
+          </div>
+          <div class="logo-text">
+            <h1>Coin Up</h1>
+            <p>Manage Assets</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-menu">
+          <li *ngFor="let item of (menuItems$ | async)">
+            <a [routerLink]="item.route" routerLinkActive="active" class="nav-link">
+              <i [class]="item.icon"></i>
+              <span class="nav-label">{{ item.label }}</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="#" class="footer-link">
+        <i class="pi pi-cog"></i>
+        <span>Settings</span>
+      </a>
+      <button class="logout-btn" (click)="onLogout()">
+        <i class="pi pi-sign-out"></i>
+        <span>Logout</span>
+      </button>
+      <div class="divider"></div>
+      <div class="user-profile">
+        <div class="avatar">
+          {{ userInitial$ | async }}
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ userName$ | async }}</div>
+          <div class="user-status">Pro Member</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

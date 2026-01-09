@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CryptoWallet - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6","primary-hover": "#2563eb","primary-soft": "rgba(59, 130, 246, 0.1)",
+                        "background-light": "#f8fafc","background-dark": "#0f172a","surface-dark": "#1e293b","surface-dark-hover": "#334155","border-dark": "#334155","text-muted": "#94a3b8","input-border-dark": "#475569",},
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }@keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased min-h-screen flex flex-col">
+<header class="w-full border-b border-gray-200 dark:border-border-dark bg-white/50 dark:bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-50">
+<div class="px-6 lg:px-12 py-4 flex items-center justify-between max-w-[1440px] mx-auto w-full">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white cursor-pointer select-none">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">CryptoWallet</h2>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-sm text-slate-500 dark:text-text-muted hidden sm:block">Don't have an account?</span>
+<a class="text-sm font-bold text-primary hover:text-primary-hover transition-colors" href="#">Sign Up</a>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1440px] mx-auto flex flex-col lg:flex-row items-stretch min-h-[calc(100vh-73px)]">
+<div class="hidden lg:flex flex-1 relative bg-surface-dark overflow-hidden items-center justify-center p-12">
+<div class="absolute inset-0 z-0">
+<img alt="Abstract dark 3D blockchain mesh gradient" class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="Abstract dark 3D blockchain mesh gradient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIESO1tOqEJXdlvFOoIX6JLQQu0y-qkVlFgubkzIfiPtLfW2Z-vUkN6xpUXYzLERLaYlJBpimKU10b1UceFnNkrc-i5g4sQOH9QxUSmYNb4_w_nmm_BwObo7DzKmC96ySW8j7H2oeasAsFNZ1kSi4k_85ITmWn3uy1Ifw6p1HdjDr7nWU4pAn_mVu20oR5KUgr4KbjVWoKHpHhTQBSyJGSaW9ESaP38p87qZk9xQgQ86A9QTBFmn772Cp-RBeBbwlHwMGuI9bHROw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute inset-0 bg-blue-900/20 mix-blend-overlay"></div>
+</div>
+<div class="relative z-10 max-w-lg">
+<div class="mb-8 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft border border-primary/20 text-blue-400 text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">security</span>
+                Bank-Grade Security
+            </div>
+<h1 class="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
+                Manage your crypto assets with confidence.
+            </h1>
+<p class="text-lg text-slate-400 mb-10 max-w-md">
+                Access your portfolio, track market trends, and secure your digital assets with our industry-leading wallet technology.
+            </p>
+<div class="flex items-center gap-8">
+<div class="flex flex-col">
+<span class="text-3xl font-bold text-white">5M+</span>
+<span class="text-sm text-slate-500">Active Users</span>
+</div>
+<div class="w-px h-12 bg-border-dark"></div>
+<div class="flex flex-col">
+<span class="text-3xl font-bold text-white">$12B+</span>
+<span class="text-sm text-slate-500">Volume Traded</span>
+</div>
+</div>
+</div>
+<div class="absolute -right-20 top-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none animate-float"></div>
+</div>
+<div class="flex-1 flex flex-col justify-center items-center p-6 sm:p-12 lg:p-24 bg-background-light dark:bg-background-dark relative">
+<div class="w-full max-w-md">
+<div class="mb-10 text-center lg:text-left">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome Back</h1>
+<p class="text-slate-500 dark:text-text-muted">Securely log in to manage your portfolio.</p>
+</div>
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white" for="email">Email Address</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-300 dark:border-input-border-dark text-slate-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="email" placeholder="user@example.com" type="email"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-text-muted pointer-events-none text-xl">mail</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-slate-700 dark:text-white" for="password">Password</label>
+<a class="text-sm font-medium text-primary hover:text-primary-hover transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<input class="w-full h-12 px-4 pr-12 rounded-lg bg-white dark:bg-surface-dark border border-gray-300 dark:border-input-border-dark text-slate-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-gray-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-white transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full h-12 mt-2 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]" type="submit">
+<span>Log In</span>
+<span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-gray-200 dark:border-border-dark"></div>
+<span class="flex-shrink-0 mx-4 text-xs font-medium text-gray-400 dark:text-text-muted uppercase tracking-wider">Or continue with</span>
+<div class="flex-grow border-t border-gray-200 dark:border-border-dark"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center h-12 gap-2 rounded-lg border border-gray-200 dark:border-input-border-dark bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors text-slate-700 dark:text-white font-medium text-sm" type="button">
+<img alt="Google" class="w-5 h-5" data-alt="Google logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbF1xKq1Z4Ckiz4o4wvnIYKrsWzFkpLky069x_KQdLXW-TZpi1rKD83WPKURll8OdtWby23aBp-K2ydS_-X231ivS6Z1eSL_z9Z3nfuR6M8BD0FukC-4ughxlFaomz3zBgPnIqfYXxW_VKIKnkRCoKqoqj9eXlxhlErkHqqPF3JW08NIGJq87PpAlvPf1LnKDRgv7VG4qzUClsM1gEZ_7908xlKBNahCJn6xAR617LhCQgTmrOlXdLqeJnU7AzJIfDZ8Dh2f1ZoYM"/>
+                        Google
+                    </button>
+<button class="flex items-center justify-center h-12 gap-2 rounded-lg border border-gray-200 dark:border-input-border-dark bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-surface-dark-hover transition-colors text-slate-700 dark:text-white font-medium text-sm" type="button">
+<img alt="Apple" class="w-5 h-5 dark:invert" data-alt="Apple logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYagMMhTIQ4YMLk4o41O3actdNodIyt44J0hTDQj3Y6aYpoYkci6dsUy_IQMuNmwim5yGhZQB8-V0szL9cxn9mgDfyyWgkGPS4GIglevXL2yPgMbgrxgXpum9X_djuugGJuIZeSghWli2M1S4EfAfJ3HnugTR3iVHpzgGSGFjC3rOkBBaSi1yv3xE83odn2nVA5ZHle_zl4A0i_EqITm0zdbJReeJnQ7gC4bz5HWI30sMVzft_3mQc3JdQr8TAKOWjw_9Fxi01ycE"/>
+                        Apple
+                    </button>
+</div>
+</form>
+<div class="mt-12 flex items-center justify-center gap-2 text-xs text-gray-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>Protected by 256-bit SSL encryption.</span>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

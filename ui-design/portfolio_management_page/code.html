@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CryptoWallet - Portfolio Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6",
+                        "background-light": "#f1f5f9",
+                        "background-dark": "#0f172a",
+                        "surface-dark": "#1e293b",
+                        "surface-dark-lighter": "#334155",
+                        "danger": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-hidden h-screen flex">
+<nav class="hidden md:flex flex-col w-64 bg-surface-dark border-r border-slate-700 h-full flex-shrink-0">
+<div class="flex flex-col h-full p-4">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Abstract green geometric pattern logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBM8rcBWoVwZQk3-xNahE79UoZb8dchX3EOfeLSPtbVFhGKzgXP4vQ4wi0l0IWm7WoLjYEg6GTyDmPReswc07vVgCnHmP3C6CZu9xzV5nyyejvA51zFh2t0-0HH38wEjdxp90J4PL73Ffz0piFsWziR625dNG-oKz1XNiKNAbHtzC6pKUI9M62RsAc23EL2HO_aRX3HG2X4H4s6vrK6LeXctZq7HmeXzgSwlJC97rGtqfwcFeC1caySXKV_nC4dGOTtjFXpkKzLr2Q");'></div>
+<h1 class="text-white text-lg font-bold leading-normal tracking-tight">CryptoWallet</h1>
+</div>
+<div class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-surface-dark-lighter border border-slate-700 text-primary group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="text-sm font-medium">Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">visibility</span>
+<span class="text-sm font-medium">Watchlist</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">swap_horiz</span>
+<span class="text-sm font-medium">Swap</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">notifications</span>
+<span class="text-sm font-medium">Alerts</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-2 border-t border-slate-700 pt-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<button class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-all group w-full text-left">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">logout</span>
+<span class="text-sm font-medium">Logout</span>
+</button>
+<div class="flex items-center gap-3 px-3 py-3 mt-2">
+<div class="size-8 rounded-full bg-slate-700 bg-center bg-cover" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6ZuPqGkMZf9-TdoX4-RyoFCjY2DPPRAb8f24e00MmhRDJM8Z9oGjU3ts_gMPlHp3FUWFbAT9-xevg1ssa7OvE8HWIyujefMw5z7YhshWD01CFj4W1ZQle6SHhs1bQThf4qirHtfjkr-Hs1UVOi-V1XqnxmkBHl-pcWzzhAdMNhWJDDsnkWQtdHfhoHzbTvr8puOE4OJCjwf4zW5LVXyTCjh99RgbdDTSqWdpgyOQtsu6ISzzvHRTOxL4A7hW7nxj-Zn7C9mkCNxI');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-white">Alex Morgan</span>
+<span class="text-xs text-slate-500">Pro Member</span>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<header class="md:hidden flex items-center justify-between p-4 bg-surface-dark border-b border-slate-700">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8" data-alt="Abstract logo small" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAW54yObNBHj6wuPBHcQFh49ctkXFu0VhE0XxfgMjXoUJxGgUYKxaSceieadMlRqqWSyMxc0J27qzDZa40vTKwMDRfebLf0fojvaJ1FYAmproUOkdbayM0XIFt7ZdMnuFwNsBC05T1zSIsAVPWRLpZOoeA_90jRPSAQ0QdQCI0682V4TwrBnUv8VSyn1ECOH6sBdmJGhZAmHmrQ5dZaH5Pe3ctB6obCWV1RVhaUOnwhsJu_Sz6D3XPK6PfbQX01vGVkbij_qggNQHI");'></div>
+<span class="font-bold text-white">CryptoWallet</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">logout</span>
+</button>
+<button class="text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 scroll-smooth">
+<div class="max-w-7xl mx-auto flex flex-col gap-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl md:text-4xl font-black tracking-tight text-white">My Portfolio</h1>
+<p class="text-slate-400 text-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        Last updated: Just now
+                    </p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 h-10 px-4 bg-primary hover:bg-blue-600 text-white rounded-lg text-sm font-bold transition-colors shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Deposit</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-10 px-4 bg-surface-dark-lighter border border-slate-600 hover:bg-slate-600 text-white rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_upward</span>
+<span>Send</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-10 px-4 bg-surface-dark-lighter border border-slate-600 hover:bg-slate-600 text-white rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+<span>Swap</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<div class="lg:col-span-2 bg-gradient-to-br from-surface-dark to-[#020617] rounded-xl border border-slate-700 p-6 relative overflow-hidden group shadow-xl">
+<div class="absolute -right-10 -top-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-slate-400 font-medium mb-1 flex items-center gap-2">
+                                    Total Balance
+                                    <button class="text-slate-500 hover:text-white transition-colors" title="Hide Balance">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</p>
+<h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight">$14,230.50</h2>
+</div>
+<div class="bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+<span class="text-primary text-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                                        +3.2%
+                                    </span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-6 mt-2">
+<div class="flex flex-col">
+<span class="text-slate-500 text-xs uppercase tracking-wider font-semibold">24h Profit/Loss</span>
+<span class="text-primary text-xl font-bold flex items-center gap-1">
+                                        +$420.00
+                                    </span>
+</div>
+<div class="w-px h-10 bg-slate-700 hidden sm:block"></div>
+<div class="flex flex-col">
+<span class="text-slate-500 text-xs uppercase tracking-wider font-semibold">Best Performer</span>
+<span class="text-white text-xl font-bold flex items-center gap-2">
+<img alt="Solana Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6LnQ_i9Zkz4-sC6brEDu2KSV-BYd7onERzcqpjXJTy1GB_iLleTAYi3bA3BmpQT34yuHKe5akCcl6Hm696eyPS4TwL6BGWD1m5DyWdqIBSeX7St3dBq-MhCn8ICAT6Yn8x3V-REy1FMSIUjW7DRgorqS7BSMvDSVfsgLnAgv-7oESTZ1-LnPa3lBmaVbj-bJAj7fe0pDQ74mG-M6qlQrtHVMRojt5q-4NzrNo0USqsnYGSHFHPPwB1XqYkCNfaZV7QjlyuJwmCgg"/>
+                                        SOL <span class="text-primary text-sm font-normal">+8.5%</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl border border-slate-700 p-6 flex flex-col shadow-xl">
+<h3 class="text-white font-bold text-lg mb-4">Allocation</h3>
+<div class="flex-1 flex items-center justify-center relative">
+<div class="w-32 h-32 rounded-full border-[6px] border-surface-dark shadow-[0_0_0_10px_#3b82f6] relative" style="box-shadow: 0 0 0 10px #3b82f6 inset;">
+<div class="absolute inset-0 rounded-full border-[10px] border-transparent border-t-[#60a5fa] border-r-[#60a5fa] transform rotate-45"></div>
+<div class="absolute inset-0 rounded-full border-[10px] border-transparent border-l-[#f59e0b] transform -rotate-12 opacity-80"></div>
+</div>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-xs text-slate-400">Top Asset</span>
+<span class="text-white font-bold">BTC</span>
+</div>
+</div>
+<div class="flex justify-center gap-4 mt-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs text-slate-300">BTC</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-blue-400"></span>
+<span class="text-xs text-slate-300">ETH</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-amber-500"></span>
+<span class="text-xs text-slate-300">SOL</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl border border-slate-700 overflow-hidden flex flex-col shadow-xl">
+<div class="p-5 border-b border-slate-700 flex flex-wrap items-center justify-between gap-4">
+<h3 class="text-xl font-bold text-white">Your Assets</h3>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]">search</span>
+<input class="bg-surface-dark-lighter border border-slate-700 text-white text-sm rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none placeholder-slate-500 w-full sm:w-64" placeholder="Search coin..." type="text"/>
+</div>
+<button class="bg-surface-dark-lighter p-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-slate-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full min-w-[800px] text-left border-collapse">
+<thead>
+<tr class="bg-surface-dark-lighter/50 text-slate-400 text-xs uppercase tracking-wider">
+<th class="p-4 font-medium pl-6">Asset</th>
+<th class="p-4 font-medium text-right">Price</th>
+<th class="p-4 font-medium text-right">Balance</th>
+<th class="p-4 font-medium text-right">Value</th>
+<th class="p-4 font-medium text-right">24h Change</th>
+<th class="p-4 font-medium text-center">Alerts</th>
+<th class="p-4 font-medium text-right pr-6">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-700 text-sm">
+<tr class="group hover:bg-slate-700/50 transition-colors">
+<td class="p-4 pl-6">
+<div class="flex items-center gap-3">
+<img alt="Bitcoin logo" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBREYn5_9fpO6NPjVQQRQDFNFpj-TxrmRjaUSwJFSugZ44XoKJJ3zYP0BD4-hqIJYzaQqX47XgCbw4nsw5H7FCTelFijxaedE4-wD5CgbNO1N-DVtx8-G6ohccE9QkIZ-toXz4xIqhRkBRCWoLy_TS32_Gl34ZSw0IPQYaPJSLr5poLravhp24PA8Zj3zy1OE14ahc7M6QPs525fvo66hcRw-MxWOgdaOnHVS8vqFC38laytm6Z_oKiyXqFl8D-Jw0CSYQbaOIfOrY"/>
+<div>
+<div class="font-bold text-white">Bitcoin</div>
+<div class="text-slate-500 text-xs">BTC</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-medium text-white">$45,000.00</td>
+<td class="p-4 text-right">
+<div class="text-white font-medium">0.50 BTC</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-white font-bold">$22,500.00</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-primary font-medium flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    +2.1%
+                                </div>
+</td>
+<td class="p-4 text-center">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors relative" title="Alert active">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+</button>
+</td>
+<td class="p-4 text-right pr-6">
+<button class="text-slate-400 hover:text-white p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-700/50 transition-colors">
+<td class="p-4 pl-6">
+<div class="flex items-center gap-3">
+<img alt="Ethereum logo" class="w-8 h-8 rounded-full bg-white p-0.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByeDiiSO5FxIuioZqv3D5b3id_9WNQas2P2crf_FgDYsFeTdLI9SiFUlTPAmuDen6hfgbr_gjj95okv4EQ7iBtYaMG_uAu_vPGuXDH3J-HAdqsUJZLnC6zVsAEntQ2ByjfiUPIN60gxgodZzIXdrvLJh7qmZJfrAt0x0KDALuw-8jh3TUHCaEpJn_smuKEmlzWvfsvA0s5i3qhF46UB3pdyqn7BOeIgheqWNTC_5xFsUH1J1ZcnIf9yMk9X2q5As9fYTONMQQjpQc"/>
+<div>
+<div class="font-bold text-white">Ethereum</div>
+<div class="text-slate-500 text-xs">ETH</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-medium text-white">$3,200.00</td>
+<td class="p-4 text-right">
+<div class="text-white font-medium">4.00 ETH</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-white font-bold">$12,800.00</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-danger font-medium flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_down</span>
+                                    -0.5%
+                                </div>
+</td>
+<td class="p-4 text-center">
+<button class="text-slate-600 hover:text-white hover:bg-slate-700 p-2 rounded-full transition-colors" title="Set alert">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</td>
+<td class="p-4 text-right pr-6">
+<button class="text-slate-400 hover:text-white p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-700/50 transition-colors">
+<td class="p-4 pl-6">
+<div class="flex items-center gap-3">
+<img alt="Solana logo" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQD9dQE7PR7-E6ZosQ617-kXOa-RKXCGC_ZxK3M300ANPgxCQHbdZ6EmHaYLn3JJp7yWMnskmihJLGkEUoDzWX2dQw5iUTLkzuS1ZsovVldnNzD-5HH2wUsM2iksY_6reqEIC_iXd1_GQva4jyef5dHgTzUoavbiuPhvF0kkl2DGtYBW0UGHtJWRC8mh0uzqrZyTA9gj9947glmV9GE9OMe71dnG9H4Om5hoKpJkB0XwX3URFmeXrgAOUFk6SGFnsoG9aYkmW2Qws"/>
+<div>
+<div class="font-bold text-white">Solana</div>
+<div class="text-slate-500 text-xs">SOL</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-medium text-white">$145.20</td>
+<td class="p-4 text-right">
+<div class="text-white font-medium">50.00 SOL</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-white font-bold">$7,260.00</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-primary font-medium flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    +8.5%
+                                </div>
+</td>
+<td class="p-4 text-center">
+<button class="text-slate-600 hover:text-white hover:bg-slate-700 p-2 rounded-full transition-colors" title="Set alert">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</td>
+<td class="p-4 text-right pr-6">
+<button class="text-slate-400 hover:text-white p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-700/50 transition-colors">
+<td class="p-4 pl-6">
+<div class="flex items-center gap-3">
+<img alt="USDC logo" class="w-8 h-8 rounded-full bg-white p-0.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn89zCDhdfeV7fy_lcwYkcI7rK1tPhc88TV-SUnsQvBdauFqvtRuIGcXogIxlisc8y8I_IreIJN8l8UZFkKuUpIA3grU96FDjIwcS6m1pPXYWUCZp602qIORYSLbVe7biXRmiQ9KspG2IhpRUjg7m2HE_cccHmH5wFw63BpVR4yC8r7Xw_ciBxbamN8mX5ywiBm2qqP1RbY-Yth2CLBtpMZ6c-uMhVk1zn_Cz9dzYdsz62gRakHO35Db-vEsSdkfNLzNhIHUdChl4"/>
+<div>
+<div class="font-bold text-white">USD Coin</div>
+<div class="text-slate-500 text-xs">USDC</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-medium text-white">$1.00</td>
+<td class="p-4 text-right">
+<div class="text-white font-medium">1,250.00 USDC</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-white font-bold">$1,250.00</div>
+</td>
+<td class="p-4 text-right">
+<div class="text-slate-400 font-medium flex items-center justify-end gap-1">
+                                    0.0%
+                                </div>
+</td>
+<td class="p-4 text-center">
+<button class="text-slate-600 hover:text-white hover:bg-slate-700 p-2 rounded-full transition-colors" title="Set alert">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</td>
+<td class="p-4 text-right pr-6">
+<button class="text-slate-400 hover:text-white p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-700 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing 4 of 12 assets</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-sm rounded border border-slate-700 text-slate-400 cursor-not-allowed opacity-50">Previous</button>
+<button class="px-3 py-1 text-sm rounded border border-slate-700 text-white hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark-lighter border border-slate-700 rounded-xl p-6 max-w-lg mx-auto w-full relative overflow-hidden shadow-2xl">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<div>
+<h4 class="text-white font-bold text-lg">Configure Alert</h4>
+<p class="text-slate-400 text-sm">Bitcoin (BTC)</p>
+</div>
+</div>
+<button class="text-slate-500 hover:text-white">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="text-slate-300 text-sm font-medium mb-1.5 block">Alert me when price is:</label>
+<div class="flex gap-2">
+<select class="bg-background-dark border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-primary outline-none">
+<option>Above</option>
+<option>Below</option>
+</select>
+<div class="relative flex-1">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+<input class="w-full bg-background-dark border border-slate-700 text-white rounded-lg pl-6 pr-3 py-2 text-sm focus:border-primary outline-none font-medium" type="number" value="50000"/>
+</div>
+</div>
+</div>
+<div class="relative py-2">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-700"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-surface-dark-lighter px-2 text-xs text-slate-500 uppercase">Or</span>
+</div>
+</div>
+<div>
+<label class="text-slate-300 text-sm font-medium mb-1.5 block">Price change by:</label>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<input class="w-full bg-background-dark border border-slate-700 text-white rounded-lg pl-3 pr-8 py-2 text-sm focus:border-primary outline-none font-medium" type="number" value="5"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">%</span>
+</div>
+<select class="bg-background-dark border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-primary outline-none min-w-[100px]">
+<option>24h</option>
+<option>1h</option>
+</select>
+</div>
+</div>
+<div class="pt-2 flex justify-end gap-3">
+<button class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white transition-colors">Cancel</button>
+<button class="px-4 py-2 rounded-lg text-sm font-bold bg-primary text-white hover:bg-blue-600 transition-colors shadow-lg shadow-blue-900/20">Save Alert</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

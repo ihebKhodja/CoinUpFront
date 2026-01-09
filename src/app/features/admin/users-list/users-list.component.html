@@ -1,0 +1,127 @@
+<div class="admin-users-container">
+  <!-- Header Section -->
+  <div class="admin-users-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>User Management</h1>
+        <p>Manage user access and account status.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" type="button" (click)="loadUsers()" [disabled]="loading">
+          <i class="pi pi-refresh" aria-hidden="true"></i>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-container">
+      <i class="pi pi-search search-icon" aria-hidden="true"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search by username or email"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+      />
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+    {{ error }}
+    <button class="close-btn" type="button" (click)="error = null" aria-label="Close">
+      <i class="pi pi-times" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-wrapper">
+    <table class="users-table" *ngIf="filteredUsers.length > 0; else emptyState">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th class="hidden-mobile">Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th class="hidden-mobile">Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers" class="table-row" [class.suspended-row]="isSuspended(user)">
+          <td class="user-cell">
+            <div class="user-info">
+              <div class="avatar">
+                {{ (displayName(user) || 'U').charAt(0).toUpperCase() }}
+              </div>
+              <div class="user-details">
+                <div class="user-name">{{ displayName(user) }}</div>
+                <div class="user-email mobile-only">{{ user.email }}</div>
+              </div>
+            </div>
+          </td>
+
+          <td class="email-cell hidden-mobile">
+            <a [href]="'mailto:' + user.email" class="email-link">{{ user.email }}</a>
+          </td>
+
+          <td class="role-cell">
+            <span class="role-chip" [class.role-admin]="roleLabel(user).toLowerCase() === 'admin'" [class.role-moderator]="roleLabel(user).toLowerCase() === 'moderator'">
+              {{ roleLabel(user) }}
+            </span>
+          </td>
+
+          <td class="status-cell">
+            <span class="status-badge" [class.status-active]="!isSuspended(user)" [class.status-suspended]="isSuspended(user)">
+              {{ isSuspended(user) ? 'Suspended' : 'Active' }}
+            </span>
+          </td>
+
+          <td class="joined-cell hidden-mobile">
+            {{ joinedDate(user) }}
+          </td>
+
+          <td class="actions-cell">
+            <button
+              *ngIf="isSuspended(user); else suspendBtn"
+              class="btn btn-small btn-primary"
+              type="button"
+              (click)="activate(user)"
+              [disabled]="isActionLoading(user.id)"
+            >
+              {{ isActionLoading(user.id) ? '...' : 'Activate' }}
+            </button>
+            <ng-template #suspendBtn>
+              <button
+                class="btn btn-small btn-danger"
+                type="button"
+                (click)="suspend(user)"
+                [disabled]="isActionLoading(user.id)"
+              >
+                {{ isActionLoading(user.id) ? '...' : 'Suspend' }}
+              </button>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <i class="pi pi-users" aria-hidden="true"></i>
+        <h3>No users found</h3>
+        <p>Try adjusting your search.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

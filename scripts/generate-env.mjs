@@ -8,7 +8,7 @@ const rootDir = process.cwd();
 const envPath = path.join(rootDir, '.env');
 const parsed = fs.existsSync(envPath) ? dotenv.config({ path: envPath }).parsed : {};
 
-const backendUrl = parsed?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:5269/api';
+const backendUrl = parsed?.BACKEND_URL || process.env.BACKEND_URL || 'http://localhost:5000/api';
 
 const outDir = path.join(rootDir, 'public');
 const outFile = path.join(outDir, 'env.js');

@@ -21,7 +21,7 @@ function getEnv(key: string, defaultValue: string): string {
 
 export const BACKEND_CONFIG = {
   // Base URL for the API (from .env file)
-  baseUrl: getEnv('BACKEND_URL', 'http://localhost:5269/api'),
+  baseUrl: getEnv('BACKEND_URL', 'http://localhost:5000/api'),
   
   // API version (from .env file)
   // version: getEnv('API_VERSION', 'v1'),
